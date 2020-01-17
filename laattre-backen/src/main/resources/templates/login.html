@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title th:text="#{label.form.loginTitle}">Title</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/bootstrap.min.css}"/>
+
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/slick.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/slick-theme.css}" />
+
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/nouislider.min.css}" />
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" th:href="@{/resources/static/css/font-awesome.min.css}" />
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/style.css}" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+	<script th:inline="javascript">
+		function validate() {
+	        if (document.f.username.value == "" && document.f.password.value == "") {
+	            alert(/*[[#{message.username} + #{message.password}]]*/);
+	            document.f.username.focus();
+	            return false;
+	        }
+	        if (document.f.username.value == "") {
+	            alert(/*[[#{message.username}]]*/);
+	            document.f.username.focus();
+	            return false;
+	        }
+	        if (document.f.password.value == "") {
+	            alert(/*[[#{message.password}]]*/);
+	            document.f.password.focus();
+	            return false;
+	        }
+	    }
+	    
+	</script>
+
+</head>
+
+<body>
+
+	<!-- section -->
+	<div class="section">
+	
+		<!-- container -->
+		<div class="container">
+			
+			<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
+
+			<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+			<!-- row -->
+			<div class="row">
+				<form id="checkout-form" class="clearfix" name='f' action="login" method='POST' onsubmit="return validate();">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title" th:text="#{label.form.loginTitle}">Sign in</h3>
+							</div>
+							<div class="form-group">
+								<input class="input" type="email" name='username' aria-describedby="emailHelp" th:placeholder="#{label.form.loginEmail}">
+							</div>
+							<div class="form-group">
+								<input class="input" type="password"  name='password' th:placeholder="#{label.form.loginPass}">
+							</div>
+							<div class="form-group">
+								<div class="input-checkbox">
+									<input type="checkbox" id="rememberMeCheck1" name="remember-me">&nbsp;&nbsp;&nbsp;
+                					<label class="font-weak" for="rememberMeCheck1" th:text="#{label.form.rememberMe}"> Remember me</label>
+								</div>
+							</div>
+							
+							 <button type="submit" class="primary-btn"  th:text="#{label.form.loginSubmit}">Sign in</button>
+							
+							<div style="text-align:center;">
+				            	<a th:href="@{/forgetPassword.html}" class="btn btn-link" th:text="#{label.form.loginForgotPassword}">Forgot Your Password?</a>
+				            	<span>.</span>
+				                <a th:href="@{/registration.html}" class="btn btn-link" th:text="#{label.form.loginSignUp}">Sign up</a>
+				            </div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+					<div class="banner banner-1" style="margin-top: 50px;">
+						<img src="/resources/static/img/banner13.jpg" alt="">
+						<div class="banner-caption text-center">
+							<h1 class="primary-color">HOT DEAL<br><span class="white-color font-weak">Up to 50% OFF</span></h1>
+							<button class="primary-btn">Shop Now</button>
+						</div>
+					</div>
+				</div>
+
+				</form>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+	
+
+	<th:block th:replace="common/header :: footer"></th:block>
+	
+	<th:block th:replace="common/header :: body-bottom-scripts"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<header>
+	<div class="lnav">
+		<ul class="nav justify-content-end">
+		  
+		  <li class="nav-item">
+		    <a class="nav-link lnav-link " href="#">  <i class="fa fa-question-circle"></i> <span th:text="#{header.top.help}">Help</span></a>
+		  </li>
+		  <li class="nav-item" sec:authorize="!hasAuthority('READ_PRIVILEGE')">
+		    <a class="nav-link lnav-link" th:href="@{/registration.html}" th:text="#{label.form.loginSignUp}">Sign up</a>
+		  </li>
+	      <li class="nav-item" th:if="${#locale.toString() == 'fr'}">
+		    <a class="nav-link lnav-link" href="?lang=en" ><img src="/resources/img/icon_flag_en.png" style="width:auto;"/></a>
+		  </li>
+		  <li class="nav-item" th:if="${#locale.toString() !='fr'}">
+		    <a class="nav-link lnav-link" href="?lang=fr" ><img src="/resources/img/icon_flag_fr.png" style="width:auto;"/></a>
+		  </li> 
+		</ul>
+		
+	</div>
+	
+	<nav class="navbar navbar-expand-lg navbar-light lnav">
+	  
+	  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button> -->
+	  <a class="navbar-brand" th:href="@{/homepage.html}"><img src="/resources/img/logo4.png"/></a>
+	  <!--<button class="navbar-toggler lBtnSearch" type="button" data-toggle="collapse" data-target="#navbarToggler2" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+	    <span><i class="fa fa-search fa-lg"></i></span>
+	  </button>-->
+	  
+	  <!--<div class="collapse navbar-collapse" id="navbarToggler2" style="padding-top: 0.35%;">-->
+	    <form action ="" class="form-inline">
+	      <div class="input-group" style="color: white;">
+			   <input type="text" class="form-control lInput"placeholder="location">
+			   <input type="text" class="form-control lInput"placeholder="search">
+			   <span class="input-group-append">
+			   		<button type="button" class="btn btn-default lBtnSearch"><i class="fa fa-search fa-lg"></i></button>
+			   </span>
+		  </div>
+	    </form>
+	  <!--</div>-->
+	
+	    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+	      <li class="nav-item">
+	        <a class="nav-link lnav-link" th:href="@{/card.html}"><i class="fa fa-shopping-cart fa-lg"></i><span>Card</span></a>
+	      </li>
+	      <li class="nav-item" sec:authorize="!hasAuthority('READ_PRIVILEGE')">
+	        <a class="nav-link lnav-link"  th:href="@{/login}"><i class="fa fa-user fa-lg"></i><span th:text="#{label.form.loginTitle}">Sign in</span></a>
+	      </li>
+	      <li class="nav-item" sec:authorize="hasAuthority('READ_PRIVILEGE')">
+	        <a class="nav-link lnav-link" ><i class="fa fa-user fa-lg"></i><span th:text="${#authentication.getPrincipal().firstName}">User</span></a>
+	      </li>
+	      <li class="nav-item dropdown active" >
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Dropdown
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="#">Action</a>
+	          <a class="dropdown-item" href="#">Another action</a>
+	          <div class="dropdown-divider"></div>
+	          <a class="dropdown-item" href="#">Something else here</a>
+	          <a class="dropdown-item" th:href="@{/logout}" th:text="#{label.pages.logout}">logout</a>
+	        </div>
+	      </li>
+	    </ul>
+	    
+	  
+	</nav>
+		
+	
+</header>

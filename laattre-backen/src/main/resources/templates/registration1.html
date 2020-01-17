@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/resources/css/lStyle.css}">
+<link rel="stylesheet" th:href="@{/resources/css/fontawesome/css/all.css}">
+
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+<script th:src="@{/resources/pwstrength.js}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII"/> -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="@{/resources/css/fontawesome/css/all.css}"></script>
+
+<title th:text="#{label.form.registrationTitle}">form</title>
+
+</head>
+
+<body>
+
+<div class="container">
+   	<div class="lWrapper">
+        <form action="/"  method='POST' enctype="utf8">
+        
+        	<div class="form-group row">
+         		<span class="col-sm-5 offset-md-3"><h3 th:text="#{label.form.registrationTitle}">Sign up</h3></span>
+         	</div>
+         	
+         	<div class="form-group row">
+         		<span class="col-sm-5 offset-md-3"><hr class="divisor ldivisor"></span>
+         	</div>
+            
+            <div class="form-group row">
+            	<span class="col-sm-5 offset-md-3"><input class="form-control input-lg lInput" name="firstName" value="" required="required" th:placeholder="#{label.user.firstName}" /></span>
+            	<span id="firstNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
+            </div>
+            
+            <div class="form-group row">
+            	<span class="col-sm-5 offset-md-3"><input class="form-control input-lg lInput" name="lastName" value="" required="required" th:placeholder="#{label.user.lastName}"/></span>
+            	<span id="lastNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
+            </div>
+            
+            <div class="form-group row">
+                <span class="col-sm-5 offset-md-3"><input type="email" class="form-control input-lg lInput" name="email" value="" required="required" th:placeholder="#{label.user.email}"/></span>  
+                <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>                 
+            </div>
+            
+            <div class="form-group row">
+                <span class="col-sm-5 offset-md-3"><input id="password" class="form-control input-lg lInput" name="password" value="" type="password" required="required" th:placeholder="#{label.user.password}"/></span>
+             	<span id="passwordError" class="alert alert-danger  col-sm-4" style="display:none"></span>
+             </div>
+             
+             <div class="form-group row">
+                <span class="col-sm-5 offset-md-3"><input id="matchPassword" class="form-control input-lg lInput" name="matchingPassword" value="" type="password" required="required" th:placeholder="#{label.user.confirmPass}"/></span>
+             	<span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
+             </div>
+
+             <div class="form-group row">
+                <!-- to enable captcha uncomment the keys in application.properties -->
+                <div class="g-recaptcha col-sm-5 offset-md-3" th:attr="data-sitekey=${@captchaService.getReCaptchaSite()}" data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
+             	<span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
+             </div>
+            
+             <div class="form-group row">
+                <span class="col-sm-5 offset-md-3"><span th:text="#{label.form.registrationAcceptTerms1}"></span>
+                <a href="#" th:text="#{label.form.registrationAcceptTerms2}"></a>
+                <span th:text="#{label.form.registrationAcceptTerms3}"></span>
+                <a href="#" th:text="#{label.form.registrationAcceptTerms4}"></a></span>
+             </div>
+             
+             <button type="submit" class="btn btn-lg btn-block lBtn col-sm-5 offset-md-3"  th:text="#{label.form.registrationSubmit}">Sign up</button>
+      
+        </form>
+    </div>
+</div>
+
+<script th:inline="javascript">
+var serverContext = [[@{/}]];
+
+$(document).ready(function () {
+	$('form').submit(function(event) {
+		register(event);
+	});
+	
+	$(":password").keyup(function(){
+		if($("#password").val() != $("#matchPassword").val()){
+	        $("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
+	    }else{
+	    	$("#globalError").html("").hide();
+	    }
+	});
+	
+	options = {
+		    common: {minChar:8},
+		    ui: {
+		    	showVerdictsInsideProgressBar:true,
+		    	showErrors:true,
+		    	errorMessages:{
+		    		  wordLength: /*[[#{error.wordLength}]]*/,
+		    		  wordNotEmail: /*[[#{error.wordNotEmail}]]*/,
+		    		  wordSequences: /*[[#{error.wordSequences}]]*/,
+		    		  wordLowercase: /*[[#{error.wordLowercase}]]*/,
+		    		  wordUppercase: /*[[#{error.wordUppercase}]]*/,
+		    	      wordOneNumber: /*[[#{error.wordOneNumber}]]*/,
+		    		  wordOneSpecialChar: /*[[#{error.wordOneSpecialChar}]]*/
+		    		}
+		    	}
+		};
+	 $('#password').pwstrength(options);
+});
+
+function register(event){
+	event.preventDefault();
+    $(".alert").html("").hide();
+    $(".error-list").html("");
+    if($("#password").val() != $("#matchPassword").val()){
+    	$("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
+    	return;
+    }
+    if (typeof grecaptcha !== 'undefined') {
+        var resp = grecaptcha.getResponse();
+        if (resp.length == 0) {
+            $("#captchaError").show().html("Please verify that you are not a robot.");
+            return;
+        }
+    }
+    var formData= $('form').serialize();
+    $.post(serverContext + "user/registrationCaptcha",formData ,function(data){
+        if(data.message == "success"){
+            window.location.href = serverContext + "successRegister.html";
+        }
+        
+    })
+    .fail(function(data) {
+        grecaptcha.reset();
+
+        if(data.responseJSON.error.indexOf("MailError") > -1)
+        {
+            window.location.href = serverContext + "emailError.html";
+        }
+        else if(data.responseJSON.error == "InvalidReCaptcha"){
+            $("#captchaError").show().html(data.responseJSON.message);
+        }
+        else if(data.responseJSON.error == "UserAlreadyExist"){
+            $("#emailError").show().html(data.responseJSON.message);
+        }
+        else if(data.responseJSON.error.indexOf("InternalError") > -1){
+            window.location.href = serverContext + "login?message=" + data.responseJSON.message;
+        }
+        else{
+        	var errors = $.parseJSON(data.responseJSON.message);
+            $.each( errors, function( index,item ){
+                $("#"+item.field+"Error").show().html(item.defaultMessage);
+            });
+            errors = $.parseJSON(data.responseJSON.error);
+            $.each( errors, function( index,item ){
+                $("#globalError").show().append(item.defaultMessage+"<br/>");
+            });
+        }
+    });
+}
+
+var onReCaptchaSuccess = function(response) {
+    $("#captchaError").html("").hide();
+};
+
+var onReCaptchaExpired = function(response) {
+    $("#captchaError").html("reCaptcha has expired.  Please solve a new reCaptcha").show();
+    grecaptcha.reset();
+};
+</script>
+</body>
+
+</html>

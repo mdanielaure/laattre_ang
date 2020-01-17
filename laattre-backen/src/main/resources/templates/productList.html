@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="common/header :: common-header" />
+
+<body>
+	<th:block th:replace="common/header :: header"></th:block>
+	<th:block th:replace="common/header :: menu"></th:block>
+	
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="#">Home</a></li>
+				<li class="active">Products List</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="table-responsive">
+			<table id="productListTable" class="table table-bordered table-hover table-striped">
+				<thead>
+					<tr>
+						<th><input th:id="selectAllProducts" type="checkbox" /></th>
+						<th>Name</th>
+						<!-- <th>Author</th> -->
+						<th>Type</th>
+						<th>List Price</th>
+						<th>Our Price</th>
+						<th>Created By</th>
+						<th>User Owner</th>
+						<th>Active?</th>
+						<th>Operation</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-th-each="product : ${productList}">
+						<td>
+						<input hidden="hidden" name="id" th:value="${product.id}" />
+						<input th:id="'selected'+${product.id}" class="checkboxProduct" type="checkbox" />
+						</td>
+						<td><a th:href="@{/product/productInfo(id=${product.id})}"><span th:text="${product.name}"></span></a></td>
+						<!-- <td th:text="${product.author}"></td> -->
+						<td th:text="${product.Type}"></td>
+						<td th:text="${product.listPrice}"></td>
+						<td th:text="${product.ourPrice}"></td>
+						<td th:text="${product.createdBy.firstName}"></td>
+						<td th:text="${product.UserOwner.firstName}"></td>
+						<td th:text="${product.active}"></td>
+						<td>
+							<input hidden="hidden" name="id" th:value="${product.id}" />
+							<button th:id="'oneProduct-'+${product.id}" class="btn btn-danger btn-xs delete-product" type="submit" value="delete" >
+							<span class="fa fa-times"></span>Delete</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<button th:id="deleteSelected" class="btn btn-danger ">Delete Selected</button>
+	</div>
+	
+	<th:block th:replace="common/header :: footer"></th:block>
+	<th:block th:replace="common/header :: body-bottom-scripts"></th:block>
+	
+	<script>
+		$(document).ready(function() {
+			$("#productListTable").DataTable({
+				"lengthMenu": [ 
+					[5, 10, 15, 20, -1], 
+					[5, 10, 15, 20, "All"] 
+				],
+				"ordering": false,
+				stateSave: true
+			});
+		});
+	</script>
+</body>
+</html>

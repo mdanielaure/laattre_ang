@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title th:text="#{label.form.registrationTitle}">registration</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/bootstrap.min.css}"/>
+
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/slick.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/slick-theme.css}" />
+
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/nouislider.min.css}" />
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" th:href="@{/resources/static/css/font-awesome.min.css}" />
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/static/css/style.css}" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	
+		
+</head>
+
+<body>
+
+<!-- section -->
+	<div class="section">
+		
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<form id="checkout-form" class="clearfix" action="/"  method='POST' enctype="utf8">
+					<div class="col-md-6">
+						<div class="billing-details">
+						<div id="globalError" class="alert alert-danger" style="display:none"></div>
+							<div class="section-title">
+								<h3 class="title" th:text="#{label.form.registrationTitle}">Sign up</h3>
+							</div>
+							
+							<div class="form-group">
+								<input class="input" name="firstName" value="" required="required" th:placeholder="#{label.user.firstName}">
+								<div id="firstNameError" class="alert alert-danger" style="display:none"></div>
+							</div>
+							<div class="form-group">
+								<input class="input" name="lastName" value="" required="required" th:placeholder="#{label.user.lastName}">
+								<!-- <div id="lastNameError" class="alert alert-danger" style="display:none"></div> -->
+							</div>
+							<div class="form-group">
+								<span id="emailError" class="hide pull-right block-help"><i class="fa fa-info-circle text-danger" aria-hidden="true"></i> An account for that username/email already exists. Please enter a different username.</span>
+								<input class="input" type="email" name="email" value="" required="required" th:placeholder="#{label.user.email}">
+								<!-- <div id="emailError" class="alert alert-danger" style="display:none"></div> -->
+							</div>
+							<div class="form-group">
+								<span id="passwordError" class="hide pull-right block-help"><i class="fa fa-info-circle text-danger" aria-hidden="true"></i> Enter a strong password</span>
+								<input class="input" id="password" name="password" value="" type="password" required="required" th:placeholder="#{label.user.password}">
+                                <div id="popover-password">
+                                    <span id="result"> </span>
+                                    <div class="progress">
+                                        <div id="password-strength" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled">
+                                        <li class="">
+                                        <span class="low-upper-case"><i class="fa fa-times" aria-hidden="true"></i></span>&nbsp; 1 lowercase &amp; 1 uppercase &nbsp;
+                                        <span class="one-number"><i class="fa fa-times" aria-hidden="true"></i></span> &nbsp;1 number (0-9) &nbsp;
+                                        <span class="one-special-char"><i class="fa fa-times" aria-hidden="true"></i></span> &nbsp;1 Special Character (!@#$%^&*). &nbsp;
+                                        <span class="eight-character"><i class="fa fa-times" aria-hidden="true"></i></span>&nbsp; Atleast 8 Character &nbsp;
+                                        </li>
+                                        <!-- <li class=""><span class="one-number"><i class="fa fa-times" aria-hidden="true"></i></span> &nbsp;1 number (0-9)</li>
+                                        <li class=""><span class="one-special-char"><i class="fa fa-times" aria-hidden="true"></i></span> &nbsp;1 Special Character (!@#$%^&*).</li>
+                                        <li class=""><span class="eight-character"><i class="fa fa-times" aria-hidden="true"></i></span>&nbsp; Atleast 8 Character</li> -->
+                                    </ul>
+                                </div>
+							</div>
+							<div class="form-group">
+								<span id="cpasswordError" class="hide pull-right block-help"><i class="fa fa-info-circle text-danger" aria-hidden="true"></i> Password don't match</span>
+								<input class="input" id="matchPassword" name="matchingPassword" value="" type="password" required="required" th:placeholder="#{label.user.confirmPass}">
+									
+							</div>
+							
+							<div class="form-group">
+				                <!-- to enable captcha uncomment the keys in application.properties -->
+				                <span id="captchaError" class="hide pull-right block-help"><i class="fa fa-info-circle text-danger" aria-hidden="true"></i> Please verify that you are not a robot.</span>
+				                <div class="g-recaptcha" th:attr="data-sitekey=${@captchaService.getReCaptchaSite()}" data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
+				             </div>
+				             
+				             <div class="form-group">
+				                <span><span th:text="#{label.form.registrationAcceptTerms1}"></span>
+				                <a href="#" th:text="#{label.form.registrationAcceptTerms2}"></a>
+				                <span th:text="#{label.form.registrationAcceptTerms3}"></span>
+				                <a href="#" th:text="#{label.form.registrationAcceptTerms4}"></a></span>
+				             </div>
+							
+							 <button type="submit" class="primary-btn"  th:text="#{label.form.registrationSubmit}">Sign up</button>
+							
+							<div style="text-align:center;">
+				                <a th:href="@{/login}" id="sign-up" class="btn btn-link" th:text="#{label.form.loginSignIn}">Already a member? Sign in</a>
+				            </div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="banner banner-1" style="margin-top: 50px;">
+							<img src="/resources/static/img/banner13.jpg" alt="">
+							<div class="banner-caption text-center">
+								<h1 class="primary-color">HOT DEAL<br><span class="white-color font-weak">Up to 50% OFF</span></h1>
+								<button class="primary-btn">Shop Now</button>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+    </div>
+	
+
+	<th:block th:replace="common/header :: footer"></th:block>
+
+	<!-- jQuery Plugins -->
+	<script src="/resources/static/js/jquery.min.js"></script>
+	<script src="/resources/static/js/bootstrap.min.js"></script>
+	<script src="/resources/static/js/slick.min.js"></script>
+	<script src="/resources/static/js/nouislider.min.js"></script>
+	<script src="/resources/static/js/jquery.zoom.min.js"></script>
+	<script src="/resources/static/js/main.js"></script>
+	<!-- <script  src="/resources/static/js/function.js"></script> -->
+	
+	<script th:inline="javascript">
+		var serverContext = [[@{/}]];
+		
+		$(document).ready(function () {
+			$('form').submit(function(event) {
+				register(event);
+			});
+			
+			 $('#password').keyup(function() {
+		            var password = $('#password').val();
+		            if (checkStrength(password) == false) {
+		                $('#sign-up').attr('disabled', true);
+		            }
+	        });
+	        $('#matchPassword').keyup(function() {
+	            if ($('#password').val() !== $('#matchPassword').val()) {
+	                $('#cpasswordError').removeClass('hide');
+	                $('#sign-up').attr('disabled', true);
+	            } else {
+	                $('#cpasswordError').addClass('hide');
+	            }
+	        });
+	        
+	        function checkStrength(password) {
+	            var strength = 0;
+	 
+	 
+	            //If password contains both lower and uppercase characters, increase strength value.
+	            if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+	                strength += 1;
+	                $('.low-upper-case').addClass('text-success');
+	                $('.low-upper-case i').removeClass('fa-times').addClass('fa-check');
+	                $('#passwordError').addClass('hide');
+	 
+	 
+	            } else {
+	                $('.low-upper-case').removeClass('text-success');
+	                $('.low-upper-case i').addClass('fa-times').removeClass('fa-check');
+	                $('#passwordError').removeClass('hide');
+	            }
+	 
+	            //If it has numbers and characters, increase strength value.
+	            if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+	                strength += 1;
+	                $('.one-number').addClass('text-success');
+	                $('.one-number i').removeClass('fa-times').addClass('fa-check');
+	                $('#passwordError').addClass('hide');
+	 
+	            } else {
+	                $('.one-number').removeClass('text-success');
+	                $('.one-number i').addClass('fa-times').removeClass('fa-check');
+	                $('#passwordError').removeClass('hide');
+	            }
+	 
+	            //If it has one special character, increase strength value.
+	            if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+	                strength += 1;
+	                $('.one-special-char').addClass('text-success');
+	                $('.one-special-char i').removeClass('fa-times').addClass('fa-check');
+	                $('#passwordError').addClass('hide');
+	 
+	            } else {
+	                $('.one-special-char').removeClass('text-success');
+	                $('.one-special-char i').addClass('fa-times').removeClass('fa-check');
+	                $('#passwordError').removeClass('hide');
+	            }
+	 
+	            if (password.length > 7) {
+	                strength += 1;
+	                $('.eight-character').addClass('text-success');
+	                $('.eight-character i').removeClass('fa-times').addClass('fa-check');
+	                $('#passwordError').addClass('hide');
+	 
+	            } else {
+	                $('.eight-character').removeClass('text-success');
+	                $('.eight-character i').addClass('fa-times').removeClass('fa-check');
+	                $('#passwordError').removeClass('hide');
+	            }
+	 
+	 
+	            // If value is less than 2
+	 
+	            if (strength < 2) {
+	                $('#result').removeClass()
+	                $('#password-strength').addClass('progress-bar-danger progress-bar-striped');
+	 
+	                $('#result').addClass('text-danger').text('Very Week');
+	                $('#password-strength').css('width', '10%');
+	            } else if (strength == 2) {
+	                $('#result').addClass('good');
+	                $('#password-strength').removeClass('progress-bar-danger progress-bar-striped');
+	                $('#password-strength').addClass('progress-bar-warning progress-bar-striped');
+	                $('#result').addClass('text-warning').text('Week')
+	                $('#password-strength').css('width', '60%');
+	                return 'Week'
+	            } else if (strength == 4) {
+	                $('#result').removeClass()
+	                $('#result').addClass('strong');
+	                $('#password-strength').removeClass('progress-bar-warning progress-bar-striped');
+	                $('#password-strength').addClass('progress-bar-success progress-bar-striped');
+	                $('#result').addClass('text-success').text('Strength');
+	                $('#password-strength').css('width', '100%');
+	 
+	                return 'Strong'
+	            }
+	 
+	        }
+		});
+		
+		function register(event){
+			event.preventDefault();
+		    $(".alert").html("").hide();
+		    $(".error-list").html("");
+		    if($("#password").val() != $("#matchPassword").val()){
+		    	$("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
+		    	return;
+		    }
+		    if (typeof grecaptcha !== 'undefined') {
+		        var resp = grecaptcha.getResponse();
+		        if (resp.length == 0) {
+		            $('#captchaError').removeClass('hide');
+		            return;
+		        }
+		    }
+		    var formData= $('form').serialize();
+		    $.post(serverContext + "user/registrationCaptcha",formData ,function(data){
+		        if(data.message == "success"){
+		            window.location.href = serverContext + "successRegister.html";
+		        }
+		        
+		    })
+		    .fail(function(data) {
+		        grecaptcha.reset();
+		
+		        if(data.responseJSON.error.indexOf("MailError") > -1)
+		        {
+		            window.location.href = serverContext + "emailError.html";
+		        }
+		        else if(data.responseJSON.error == "InvalidReCaptcha"){
+		            $("#captchaError").show().html(data.responseJSON.message);
+		        }
+		        else if(data.responseJSON.error == "UserAlreadyExist"){
+		            /* $("#emailError").show().html(data.responseJSON.message); */
+		            $('#emailError').removeClass('hide');
+		        }
+		        else if(data.responseJSON.error.indexOf("InternalError") > -1){
+		            window.location.href = serverContext + "login?message=" + data.responseJSON.message;
+		        }
+		        else{
+		        	var errors = $.parseJSON(data.responseJSON.message);
+		            $.each( errors, function( index,item ){
+		                $("#"+item.field+"Error").show().html(item.defaultMessage);
+		            });
+		            errors = $.parseJSON(data.responseJSON.error);
+		            $.each( errors, function( index,item ){
+		                $("#globalError").show().append(item.defaultMessage+"<br/>");
+		            });
+		        }
+		    });
+		}
+		
+		var onReCaptchaSuccess = function(response) {
+		    $("#captchaError").html("").hide();
+		};
+		
+		var onReCaptchaExpired = function(response) {
+		    $("#captchaError").html("reCaptcha has expired.  Please solve a new reCaptcha").show();
+		    grecaptcha.reset();
+	};
+	</script>
+</body>
+
+</html>
