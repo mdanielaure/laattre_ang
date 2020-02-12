@@ -35,66 +35,14 @@ import com.laattre.backen.service.ProductService;
 import com.laattre.backen.service.UserService;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("api/product")
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
 	
-	@Autowired
-	private ISecurityUserService securityUserService; 
+
 	
-	@Autowired
-	private UserService userService; 
-	
-	@Autowired
-	private CategoryService categoryService;
-	
-	List<User> listUsers;
-	List<Category> categories;
-	List<Category> subCategories;
-	
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String addProduct(Model model) {
-		Product product = new Product();
-		model.addAttribute("product", product);
-		
-		listUsers = userService.findAll();
-		model.addAttribute("users", listUsers);
-		
-		categories = categoryService.findAll();
-		model.addAttribute("categories", categories);
-		
-		return "addProduct";
-	}
-
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addProductPost(@ModelAttribute("product") Product product, HttpServletRequest request) {
-	    	
-	    	final User createdBy = securityUserService.getCurrentUser();
-
-	     	
-	   	product.setCreateDate(new Date());
-	   	product.setCreatedBy(createdBy);
-		productService.save(product);
-
-		MultipartFile productImage = product.getProductImage();
-
-		try {
-			byte[] bytes = productImage.getBytes();
-			String name = product.getId() + ".png";
-			String fileLocation = new File("resources\\static\\image\\product").getAbsolutePath() + "\\" + name;
-			System.out.println("fileLocation " + request.getSession().getServletContext().getRealPath("/WEB-INF/"));
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(request.getSession().getServletContext().getRealPath("/WEB-INF/") + "\\resources\\static\\image\\product\\" + name)));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return "redirect:productList";
-	}
 	
 	@RequestMapping("/productInfo")
 	public String productInfo(@RequestParam("id") Long id, Model model) {
@@ -137,13 +85,6 @@ public class ProductController {
 		return "redirect:/product/productInfo?id="+product.getId();
 	}
 	
-	@RequestMapping("/productList")
-	public String productList(Model model) {
-		List<Product> productList = productService.findAll();
-		model.addAttribute("productList", productList);		
-		return "productList";
-		
-	}
 	
 	@RequestMapping("/shop")
 	public String productShop(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
@@ -163,18 +104,6 @@ public class ProductController {
 	        }
 	    return "shop";
 		
-	}
-
-	
-	@RequestMapping(value="/remove", method=RequestMethod.POST)
-	public String remove(
-			@ModelAttribute("id") String id, Model model
-			) {
-		productService.removeOne(Long.parseLong(id.substring(11)));
-		List<Product> productList = productService.findAll();
-		model.addAttribute("productList", productList);
-		
-		return "redirect:/product/productList";
 	}
 
 }

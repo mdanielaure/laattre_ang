@@ -81,10 +81,10 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**","/js/**","/image/**","/fonts/**","/login*","/login*", "/logout*", "/signin/**", "/signup/**", "/customLogin",
                         "/user/registration*", "/registrationConfirm*", "/expiredAccount*", "/registration*",
                         "/badUser*", "/user/resendRegistrationToken*" ,"/forgetPassword*", "/user/resetPassword*",
-                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*","/successRegister*","/qrcode*", "/home*", "/product*", "/homepage*").permitAll()
+                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*","/successRegister*","/qrcode*", "/home*", "/product*", "/homepage*", "/api/**").permitAll()
 //                .antMatchers("/invalidSession*").anonymous()
                 .antMatchers("/user/updatePassword*","/user/savePassword*","/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-                .antMatchers("product/add").hasAnyAuthority("WRITE_PRIVILEGE")
+                .antMatchers("/admin/**").hasAnyAuthority("WRITE_PRIVILEGE")
                 .anyRequest().hasAuthority("READ_PRIVILEGE")
                 .and()
             .formLogin()

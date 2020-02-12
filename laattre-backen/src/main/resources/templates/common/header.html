@@ -125,7 +125,7 @@
 								<li sec:authorize="!hasAuthority('READ_PRIVILEGE')"><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
 								<li sec:authorize="hasAuthority('READ_PRIVILEGE')"><a th:href="@{/logout}"><i class="fa fa-lock"></i> <span th:text="#{label.pages.logout}">Logout</span></a></li>
 								<li sec:authorize="!hasAuthority('READ_PRIVILEGE')"><a th:href="@{/registration.html}"><i class="fa fa-user-plus"></i> Create An Account</a></li>
-								<li sec:authorize="hasAuthority('WRITE_PRIVILEGE')"><a th:href="@{/product/add}"><i class="fa fa-user-plus"></i> New Product</a></li>
+								<li sec:authorize="hasAuthority('WRITE_PRIVILEGE')"><a th:href="@{/admin/product/add}"><i class="fa fa-user-plus"></i> New Product</a></li>
 							</ul>
 						</li>
 						<!-- /Account -->
@@ -394,7 +394,7 @@
 					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
 					<ul class="menu-list">
 						<li><a th:href="@{/homepage.html}" th:text="#{label.menu.home}">Home</a></li>
-						<li><a th:href="@{/product/shop}">Shop</a></li>
+						<li><a th:href="@{/api/product/shop}">Shop</a></li>
 						<li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Women <i class="fa fa-caret-down"></i></a>
 							<div class="custom-menu">
 								<div class="row">
