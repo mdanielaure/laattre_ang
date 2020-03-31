@@ -1,8 +1,10 @@
 package com.laattre.backen.web.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import static org.springframework.http.ResponseEntity.ok;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +31,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,8 +48,11 @@ import com.laattre.backen.service.UserService;
 import com.laattre.backen.web.dto.PasswordDto;
 import com.laattre.backen.web.dto.UserDto;
 import com.laattre.backen.web.error.InvalidOldPasswordException;
+import com.laattre.backen.web.error.UserAlreadyExistException;
 import com.laattre.backen.web.util.GenericResponse;
 
+
+@CrossOrigin
 @Controller
 public class RegistrationController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -74,14 +84,23 @@ public class RegistrationController {
 
     // Registration
 
-    @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
-    @ResponseBody
-    public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
-        LOGGER.debug("Registering user account with information: {}", accountDto);
-
-        final User registered = userService.registerNewUserAccount(accountDto);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request)));
-        return new GenericResponse("success");
+    @PostMapping(value = "/user/registration")
+    //@ResponseBody
+//    public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
+//        LOGGER.debug("Registering user account with information: {}", accountDto);
+//
+//        final User registered = userService.registerNewUserAccount(accountDto);
+//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request)));
+//        return new GenericResponse("success");
+//    }
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity registerUserAccount(@RequestBody User accountDto) {
+    	LOGGER.debug("Registering user account with information: {}", accountDto);
+    	final User registered = userService.registerNewUserAccount(accountDto);
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, null, "http://localhost:4200"));
+        Map<Object, Object> model = new HashMap<>();
+        model.put("message", "User registered successfully");
+        return ok(model);
     }
 
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
@@ -195,7 +214,8 @@ public class RegistrationController {
     private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
-
+    
+    //login
     public void authWithHttpServletRequest(HttpServletRequest request, String username, String password) {
         try {
             request.login(username, password);

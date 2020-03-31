@@ -1,74 +1,97 @@
-<!-- Footer Section Begin -->
-<footer class="footer-section">
+<!-- FOOTER -->
+<footer id="footer" class="section section-grey" th:fragment="footer">
+    <!-- container -->
     <div class="container">
+        <!-- row -->
         <div class="row">
-            <div class="col-lg-3">
-                <div class="footer-left">
+            <!-- footer widget -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <!-- footer logo -->
                     <div class="footer-logo">
-                        <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                        <a class="logo" th:href="@{/homepage.html}">
+                            <img src="assets/img/logo.png" alt="">
+                        </a>
                     </div>
-                    <ul>
-                        <li>Address: 60-49 Road 11378 New York</li>
-                        <li>Phone: +65 11.188.888</li>
-                        <li>Email: hello.colorlib@gmail.com</li>
+                    <!-- /footer logo -->
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+
+                    <!-- footer social -->
+                    <ul class="footer-social">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                        <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
                     </ul>
-                    <div class="footer-social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                    </div>
+                    <!-- /footer social -->
                 </div>
             </div>
-            <div class="col-lg-2 offset-lg-1">
-                <div class="footer-widget">
-                    <h5>Information</h5>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Serivius</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="footer-widget">
-                    <h5>My Account</h5>
-                    <ul>
+            <!-- /footer widget -->
+
+            <!-- footer widget -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <h3 class="footer-header">My Account</h3>
+                    <ul class="list-links">
                         <li><a href="#">My Account</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Shopping Cart</a></li>
-                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">My Wishlist</a></li>
+                        <li><a href="#">Compare</a></li>
+                        <li><a href="#">Checkout</a></li>
+                        <li><a href="#">Login</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="newslatter-item">
-                    <h5>Join Our Newsletter Now</h5>
-                    <p>Get E-mail updates about our latest shop and special offers.</p>
-                    <form action="#" class="subscribe-form">
-                        <input type="text" placeholder="Enter Your Mail">
-                        <button type="button">Subscribe</button>
+            <!-- /footer widget -->
+
+            <div class="clearfix visible-sm visible-xs"></div>
+
+            <!-- footer widget -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <h3 class="footer-header">Customer Service</h3>
+                    <ul class="list-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Shiping & Return</a></li>
+                        <li><a href="#">Shiping Guide</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /footer widget -->
+
+            <!-- footer subscribe -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <h3 class="footer-header">Stay Connected</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
+                    <form>
+                        <div class="form-group">
+                            <input class="input" placeholder="Enter Email Address">
+                        </div>
+                        <button class="primary-btn">Join Newslatter</button>
                     </form>
                 </div>
             </div>
+            <!-- /footer subscribe -->
         </div>
-    </div>
-    <div class="copyright-reserved">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="copyright-text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                    <div class="payment-pic">
-                        <img src="img/payment-method.png" alt="">
-                    </div>
+        <!-- /row -->
+        <hr>
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <!-- footer copyright -->
+                <div class="footer-copyright">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="https://kamaradiance.com" target="_blank">KAMA RADIANCE</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </div>
+                <!-- /footer copyright -->
             </div>
         </div>
+        <!-- /row -->
     </div>
+    <!-- /container -->
 </footer>
-<!-- Footer Section End -->
+<!-- /FOOTER -->

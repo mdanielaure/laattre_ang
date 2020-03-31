@@ -22,6 +22,7 @@ import org.jboss.aerogear.security.otp.api.Base32;
 import com.laattre.backen.persistence.model.UserShipping;
 import com.laattre.backen.persistence.model.ShoppingCart;
 import com.laattre.backen.persistence.model.UserPayment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laattre.backen.persistence.model.Role;
 
 @Entity

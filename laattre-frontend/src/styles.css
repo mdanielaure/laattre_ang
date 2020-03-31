@@ -62,7 +62,6 @@ Table OF Contents
 \*----------------------------*/
 
 body {
-  font-family: 'Hind', sans-serif;
   color: #4A4E5A;
   overflow-x: hidden;
   line-height: 1.42857143 !important;
@@ -73,7 +72,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   color: #30323A;
   margin: 0 0 10px;
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 a {
@@ -109,13 +108,24 @@ strong {
 ul, ol {
   margin: 0;
   padding: 0;
-  list-style: none
+  list-style: none;
+  margin-bottom: -5px !important;
 }
 
 hr {
   margin-top: 15px;
   margin-bottom: 15px;
   border-color: #DADADA;
+}
+
+
+/*----------------------------*\
+	mat nav bar side
+\*----------------------------*/
+
+html, body { 
+  margin: 0;
+  height: 100%;
 }
 
 /*----------------------------*\
@@ -203,6 +213,14 @@ textarea.input {
   max-height: 800px;
 }
 
+.input-group-text{
+  background-color: #f5af02 !important;
+  color: white !important;
+  border:0 !important;
+  border-radius: 0 !important;
+  width: 40px !important;
+}
+
 /*----------------------------*\
 	Lists
 \*----------------------------*/
@@ -223,7 +241,7 @@ textarea.input {
 }
 
 .list-links li>a:before {
-  content: "\f105";
+  /*content: "\f105";*/
   position: absolute;
   left: 0px;
   font-family: FontAwesome;
@@ -323,7 +341,7 @@ textarea.input {
 
 #top-header {
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #DADADA;
 }
 
@@ -390,6 +408,14 @@ textarea.input {
   border: none;
 }
 
+.pull-right{
+  float: right;
+  
+}
+.pull-left{
+  float: left;
+}
+
 
 /*----------------------------*\
 	Account header
@@ -428,10 +454,19 @@ textarea.input {
   color: #f5af02 !important;
 }
 
+.custom-menu > li > a.dropdown-item > i{
+  color: #f5af02 !important;
+  margin-right: 15px !important;
+}
+
 .navbar-nav .nav-link {
     padding-right: 0 !important;
     padding-left: 0 !important;
     padding: 0 0 !important;
+}
+
+.header-btns{
+  margin-top: 15px !important;
 }
 
 /*----------------------------*\
@@ -460,8 +495,6 @@ textarea.input {
   max-height: 260px;
   margin-bottom: 15px;
   overflow-y: scroll;
-  width: 300px !important;
-  padding: 10px 10px !important;
 }
 
 #shopping-cart .shopping-cart-list .product.product-widget:first-child {
@@ -562,12 +595,12 @@ textarea.input {
 	Menu nav
 \*----------------------------*/
 
-.menu-nav .menu-header {
+.menu-nav .menu-header .navbar-nav{
   display: none;
   padding: 15px;
-  text-transform: uppercase;
-  background: #30323A;
-  color: #FFF;
+  text-transform: uppercase !important;
+  background: #30323A !important;
+  color: #FFF !important;
   font-weight: 700;
 }
 
@@ -580,16 +613,32 @@ textarea.input {
   display: inline-block;
 }
 
-.menu-nav .menu-list>li>a {
+.menu-nav .menu-list>li>a{
   display: block;
   padding: 15px;
-  color: #FFF;
+  color: #FFF !important;
   text-transform: uppercase;
 }
 
 .menu-nav .menu-list>li>a:hover, .menu-nav .menu-list>li>a:focus, .menu-nav .menu-list>li.dropdown.show>a .nav-item.open>a{
-  color: #f5af02;
+  color: #f5af02 !important;
 }
+
+.nav-item{
+  display: block;
+  padding: 15px;
+  margin-right: 20px;
+  color: #FFF !important;
+  text-transform: uppercase;
+}
+.nav-link{
+  padding: 15px;
+  text-transform: uppercase !important;
+  background: #30323A;
+  color: #FFF !important;
+  font-weight: 700;
+}
+
 
 /*----------------------------*\
 	Dropdowns
@@ -610,7 +659,7 @@ textarea.input {
   transition: 0.3s all !important;
 }
 
-.dropdown.open>.custom-menu .show>.dropdown-menu{
+.dropdown.open>.custom-menu .show>.custom-menu{
   opacity: 1;
   visibility: visible;
 }
@@ -635,6 +684,14 @@ textarea.input {
   display: block !important;
   padding: 10px !important;
   text-transform: uppercase !important;
+}
+
+.dropdown-menu{
+  border-radius: 0% !important;
+}
+
+.dropdown-toggle::after {
+  display:none !important;
 }
 
 /*-- Mega Dropdown --*/
@@ -698,7 +755,7 @@ textarea.input {
     float: none !important;
   }
   header .pull-right {
-    margin-top: 10px important;
+    margin-top: 10px !important;
   }
   #responsive-nav {
     position: fixed;
@@ -833,6 +890,10 @@ textarea.input {
 
 #home-slick .banner {
   margin: 0px;
+}
+
+.picsum-img-wrapper > img{
+  height: 40% !important;
 }
 
 /*=========================================================
@@ -1733,7 +1794,10 @@ textarea.input {
     float: none !important;
   }
   .store-filter .pull-right {
-    margin-top: 15px important;
+    margin-top: 15px !important;
+  }
+  .test-right{
+    text-align: center !important;
   }
 }
 
@@ -1743,3 +1807,6 @@ textarea.input {
   }
 }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

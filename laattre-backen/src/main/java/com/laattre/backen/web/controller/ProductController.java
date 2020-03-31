@@ -20,10 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.laattre.backen.persistence.model.Category;
@@ -34,8 +36,9 @@ import com.laattre.backen.service.CategoryService;
 import com.laattre.backen.service.ProductService;
 import com.laattre.backen.service.UserService;
 
-@Controller
-@RequestMapping("api/product")
+@CrossOrigin
+@RestController
+@RequestMapping("product/")
 public class ProductController {
 
 	@Autowired
@@ -103,6 +106,14 @@ public class ProductController {
 	            model.addAttribute("pageNumbers", pageNumbers);
 	        }
 	    return "shop";
+		
+	}
+	
+	@RequestMapping("/productList")
+	public List<Product> productList(Model model) {
+		List<Product> productList = productService.findAll();
+		//model.addAttribute("productList", productList);		
+		return productList;
 		
 	}
 

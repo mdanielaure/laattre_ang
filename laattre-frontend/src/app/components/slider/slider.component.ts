@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SliderComponent implements OnInit {
 
+  images = [1, 2, 3].map((n) => `assets/img/products/banner0${n}.jpg`);
+
   constructor() { }
 
   ngOnInit() {
