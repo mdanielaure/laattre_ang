@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.laattre.backen.persistence.model.Privilege;
 import com.laattre.backen.persistence.model.User;
@@ -52,8 +53,8 @@ import com.laattre.backen.web.error.UserAlreadyExistException;
 import com.laattre.backen.web.util.GenericResponse;
 
 
-@CrossOrigin
-@Controller
+@CrossOrigin(origins= "*")
+@RestController
 public class RegistrationController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 

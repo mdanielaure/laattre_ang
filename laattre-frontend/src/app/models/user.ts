@@ -5,4 +5,10 @@ export class User {
     firstName: string;
     lastName: string;
     token: string;
+    roles: [];
+    //shoppingCart: ShoppingCart;
+    userShippingList: [];
+    orderList: [];
+    enabled: boolean;
+    phone: string;
 }

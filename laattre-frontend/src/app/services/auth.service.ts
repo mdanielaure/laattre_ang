@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, tap, mapTo, catchError } from 'rxjs/operators';
 import { config } from '../config';
 import { User } from '../models/user';
+import * as jwt_decode from 'jwt-decode';
 
 
-
-export class Tokens {
-  jwt: string;
-  refreshToken: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +40,43 @@ export class AuthService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
+    /*logout() {
+    return this.http.post<any>(`${config.apiUrl}/logout`, {
+      //'refreshToken': this.getRefreshToken()
+    }).pipe(
+      tap(() => this.doLogoutUser()),
+      mapTo(true),
+      catchError(error => {
+        alert(error.error);
+        return of(false);
+      }));
+  }*/
+
+  private doLogoutUser() {
+    this.currentUser = null;
+    localStorage.removeItem('currentUser');
+    //this.removeTokens();
+  }
+
+  getTokenExpirationDate(token: string): Date {
+    const decoded = (JSON.parse(atob(token.split('.')[1])));
+    //console.log("decoded "+ JSON.stringify(decoded));
+    if (decoded.exp === undefined) return null;
+
+    const date = new Date(0); 
+    date.setUTCSeconds(decoded.exp);
+    return date;
+  }
+
+  isTokenExpired(token?: string): boolean {
+    if(!token) token = this.currentUserValue.token;
+    if(!token) return true;
+
+    const date = this.getTokenExpirationDate(token);
+    if(date === undefined) return false;
+    return !(date.valueOf() > new Date().valueOf());
+  }
 
   
 

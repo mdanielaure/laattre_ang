@@ -12,13 +12,20 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     private authService: AuthService) { }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.authService.currentUserValue;
-    if (currentUser) {
+
+    if (localStorage.getItem('currentUser')) {
+      if (!this.authService.isTokenExpired()) {
         // authorised so return true
         return true;
+      }
     }
+    
 
-    this.router.navigate(['login'], { queryParams: { returnUrl: state.url }});
+    this.router.navigate(['login'], { queryParams: { returnUrl: state.url }})
+    .then(() => {
+      localStorage.removeItem('currentUser');
+      window.location.reload();
+    });
     return false;
 
   }

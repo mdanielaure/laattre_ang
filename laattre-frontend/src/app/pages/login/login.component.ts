@@ -14,8 +14,10 @@ import { AlertService } from 'src/app/services/alert.service';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
+    user: any;
     isSubmitted = false;
     returnUrl: string;
+    locale = 'en';
 
     constructor(
         private formBuilder: FormBuilder,
@@ -25,9 +27,9 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService
     ) {
         // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) {
+        /*if (this.authenticationService.currentUserValue) {
             this.router.navigate(['/']);
-        }
+        }*/
     }
 
     ngOnInit() {
@@ -59,7 +61,10 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigate([this.returnUrl])
+                    .then(() => {
+                        window.location.reload();
+                      });
                 },
                 error => {
                     this.alertService.error(error);

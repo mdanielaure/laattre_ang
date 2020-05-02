@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
  	
 import { MaterialModule } from './material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { HttpInterceptorService } from './services/http-interceptor.service';
@@ -29,10 +29,21 @@ import { RegistrationComponent } from './pages/registration/registration.compone
 import { ShopComponent } from './pages/shop/shop.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
-import { CartComponent } from './pages/cart/cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { RegistrationSuccessComponent } from './pages/registration-success/registration-success.component';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { LogoutComponent } from './pages/logout/logout.component';
+import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
+import { AddToCartComponent } from './pages/add-to-cart/add-to-cart.component';
+import { EmptyCartComponent } from './pages/empty-cart/empty-cart.component';
+import { RegistrationreactiveComponent } from './pages/registrationreactive/registrationreactive.component';
+
+registerLocaleData(localeFr);
 
 
 
@@ -54,10 +65,16 @@ import { AlertComponent } from './components/alert/alert.component';
     ShopComponent,
     ProductsComponent,
     ProductDetailsComponent,
-    CartComponent,
     CheckoutComponent,
     AdminComponent,
-    AlertComponent
+    AlertComponent,
+    RegistrationSuccessComponent,
+    PageNotFoundComponent,
+    LogoutComponent,
+    ShoppingCartComponent,
+    AddToCartComponent,
+    EmptyCartComponent,
+    RegistrationreactiveComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,8 +90,12 @@ import { AlertComponent } from './components/alert/alert.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: LOCALE_ID,
+      useValue: 'fr-FR' // 'de-DE' for Germany, 'fr-FR' for France ... 
+    }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

@@ -23,7 +23,7 @@ a:hover, a:active{
   padding-right: 15px !important;
   -webkit-transition: 0.3s all !important;
   transition: 0.3s all !important;
-  top: 175px !important;
+  margin-top: -15px !important;
 }
  
 .navigation-items{

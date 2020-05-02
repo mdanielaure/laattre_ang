@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { MatchPasswordValidator } from 'src/app/shared/matching-password.validator';
+import { EmailValidator } from 'src/app/shared/email.validator';
+import { patternValidator } from 'src/app/shared/custom.validator';
 
 
 @Component({
@@ -14,36 +16,69 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  registerForm: FormGroup;
-  loading = false;
-  isSubmitted = false;
+    registrationForm: FormGroup; 
+    loading = false;
+    isSubmitted = false;
+
+    
+
 
   constructor(
       private formBuilder: FormBuilder,
       private router: Router,
-      private authenticationService: AuthService,
       private userService: UserService,
-      private alertService: AlertService
+      private alertService: AlertService,
+      private fb: FormBuilder
   ) {
       // redirect to home if already logged in
-      if (this.authenticationService.currentUserValue) {
+      /*if (this.authenticationService.currentUserValue) {
           this.router.navigate(['/']);
-      }
+      }*/
   }
 
+ 
+
+
   ngOnInit() {
-      this.registerForm = this.formBuilder.group({
+     /* this.registerForm = this.formBuilder.group({
           firstName: ['', Validators.required],
           lastName: ['', Validators.required],
           password: ['', [Validators.required, Validators.minLength(6)]],
           email: ['', Validators.required]
           
           //matchingPassword: ['', [Validators.required, Validators.minLength(6)]]
-      });
+      });*/
+
+      this.registrationForm = this.fb.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        //password: ['', [Validators.required, Validators.pattern("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&]).{8,30})")]],
+        
+        password: [null, Validators.compose([
+            // 1. Password Field is Required
+            Validators.required,
+            // 2. check whether the entered password has a number
+            patternValidator(/\d/, { hasNumber: true }),
+             // 3. check whether the entered password has upper case letter
+            patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+            // 4. check whether the entered password has a lower-case letter
+            patternValidator(/[a-z]/, { hasSmallCase: true }),
+            // 5. check whether the entered password has a special character
+            patternValidator(/[!@#$%^&]/, { hasSpecialCharacters: true }),
+            // 6. Has a minimum length of 8 characters
+            Validators.minLength(8)
+            
+            ])
+        ],
+        
+        email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+        //email: ['', [Validators.required, EmailValidator]],
+        confirmPassword: ['']
+    }, {validators: MatchPasswordValidator});
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  get f() { return this.registrationForm.controls; }
 
   onSubmit() {
       this.isSubmitted = true;
@@ -52,17 +87,17 @@ export class RegistrationComponent implements OnInit {
       this.alertService.clear();
 
       // stop here if form is invalid
-      if (this.registerForm.invalid) {
+      if (this.registrationForm.invalid) {
           return;
       }
 
       this.loading = true;
-      this.userService.register(this.registerForm.value)
+      this.userService.register(this.registrationForm.value)
           .pipe(first())
           .subscribe(
               data => {
                   this.alertService.success('Registration successful', true);
-                  this.router.navigate(['/login']);
+                  this.router.navigate(['/registration-success', {message:'success'}]);
               },
               error => {
                   this.alertService.error(error);

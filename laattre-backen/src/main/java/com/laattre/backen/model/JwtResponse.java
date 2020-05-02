@@ -2,22 +2,33 @@ package com.laattre.backen.model;
 
 import java.io.Serializable;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.laattre.backen.persistence.model.User;
+
 public class JwtResponse implements Serializable {
 
 	private static final long serialVersionUID = -8091879091924046844L;
 	private final String jwttoken;
-	private final String username;
+	private UserDetails userDetails;
+	private User user;
 
-	public JwtResponse(String jwttoken, String username) {
+	public JwtResponse(String jwttoken, UserDetails userDetails, User user) {
 		this.jwttoken = jwttoken;
-		this.username = username;
+		this.userDetails = userDetails;
+		this.user = user;
 	}
 
 	public String getToken() {
 		return this.jwttoken;
 	}
 
-	public String getUsername() {
-		return username;
+
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

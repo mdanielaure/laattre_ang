@@ -3,6 +3,7 @@ package com.laattre.backen.service.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,10 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public List<Product> findAll() {
-		return (List<Product>) productRepository.findAll();
+		return ((List<Product>) productRepository.findAll())
+				.stream()
+		        .filter(this::isActive)
+		       .collect(Collectors.toList());
 	}
 	
 	public Optional<Product> findOne(Long id) {
@@ -40,7 +44,11 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public Page<Product> findPaginated(Pageable pageable) {
-	    List<Product> products = findAll();    
+	    List<Product> products = findAll()
+	    		.stream()
+		        .filter(this::isActive)
+		       .collect(Collectors.toList()); 
+	    
 	    int pageSize = pageable.getPageSize();
 	    int currentPage = pageable.getPageNumber();
 	    int startItem = currentPage * pageSize;
@@ -58,4 +66,8 @@ public class ProductServiceImpl implements ProductService{
 	    return bookPage;
 
 	    }
+	
+	public boolean isActive(Product product) {
+		return product.isActive();
+	}
 }

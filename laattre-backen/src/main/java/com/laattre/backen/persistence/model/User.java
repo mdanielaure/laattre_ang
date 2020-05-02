@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.jboss.aerogear.security.otp.api.Base32;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.laattre.backen.persistence.model.UserShipping;
 import com.laattre.backen.persistence.model.ShoppingCart;
@@ -27,13 +29,20 @@ import com.laattre.backen.persistence.model.Role;
 
 @Entity
 @Table(name = "user_account")
-public class User {
+public class User implements UserDetails{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8195049575535959795L;
+
+	@Id
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
+    private String username;
+    
     private String firstName;
 
     private String lastName;
@@ -54,9 +63,11 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JsonIgnore
     private Collection<Role> roles;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private ShoppingCart shoppingCart;
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -83,6 +94,13 @@ public class User {
     public void setId(final Long id) {
         this.id = id;
     }
+    
+    public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
     public String getFirstName() {
         return firstName;
@@ -223,5 +241,30 @@ public class User {
                 .append(isUsing2FA).append(", secret=").append(secret).append(", roles=").append(roles).append("]");
         return builder.toString();
     }
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

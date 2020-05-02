@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    {{registrationForm.value | json}}
+    <h2>Registration Form</h2>
+    <form [formGroup]="registrationForm">
+        <div class="form-group">
+            <label>Username</label>
+            <input [class.is-invalid]="f.username.invalid && f.username.touched" 
+            formControlName="username" type="text" class="form-control">
+            <!--<small [class.d-none]="f.username.valid || f.username.untouched" 
+            class="text-danger">Username is required</small>-->
+            <div *ngIf="f.username.invalid && f.username.touched">
+                <small *ngIf="f.username.errors?.required" class="text-danger">Username is required</small>
+                <small *ngIf="f.username.errors?.forbiddenName" class="text-danger">{{f.username.errors.forbiddenName.value}} Username not allowed</small>
+             </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input [class.is-invalid]="f.password.invalid && f.password.touched"
+            formControlName="password" type="Password" class="form-control">
+
+            <div *ngIf="f.password.invalid && f.password.touched">
+                <small *ngIf="f.password.errors?.required" class="text-danger">Password is required</small>
+                <small *ngIf="f.password.errors?.minlength" class="text-danger">Password must be at least 8 caracters</small>
+             </div>
+        </div>
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input [class.is-invalid]="registrationForm.errors?.misMacth"
+                formControlName="confirmPassword" type="Password" class="form-control">
+            <small *ngIf="registrationForm.errors?.misMacth"  class="text-danger">Passwords do not match</small>    
+        </div>
+        <div formGroupName="address">
+            <div class="form-group">
+                <label>Country</label>
+                <input formControlName="country" type="text" class="form-control">
+            </div>
+    
+            <div class="form-group">
+                <label>City</label>
+                <input formControlName="city" type="text" class="form-control">
+            </div>
+    
+            <div class="form-group">
+                <label>State</label>
+                <input formControlName="state" type="text" class="form-control">
+            </div>
+    
+            <div class="form-group">
+                <label>Postal Code</label>
+                <input formControlName="postalCode" type="text" class="form-control">
+            </div>
+        </div>
+        
+
+        <button class="btn btn-primary" type="submit">Register</button>
+        <button (click)="loadApiData()" class="btn btn-secondary ml-2" type="button">Load API Data</button>
+    </form>
+    
+</div>

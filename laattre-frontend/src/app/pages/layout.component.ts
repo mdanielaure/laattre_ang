@@ -9,13 +9,9 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent implements OnInit {
 
-    constructor(
-        private authentocationService: AuthService,
-        private router: Router)  { }
+    constructor()  { }
 
   ngOnInit() {
-      this.authentocationService.logout();
-      this.router.navigate(["/home"])
   }
 
 }

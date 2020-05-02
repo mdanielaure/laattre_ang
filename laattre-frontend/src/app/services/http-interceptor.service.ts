@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-    constructor(private authenticationService: AuthService) {}
+    constructor(private authService: AuthService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        let currentUser = this.authenticationService.currentUserValue;
+        let currentUser = this.authService.currentUserValue;
         if (currentUser && currentUser.token) {
+            //console.log("currentUser && currentUser.token " +currentUser +" && "+ currentUser.token);
+            //this.addToken(request, currentUser.token);
             request = request.clone({
                 setHeaders: { 
                     Author: `Bearer ${currentUser.token}`
@@ -21,4 +24,13 @@ export class HttpInterceptorService implements HttpInterceptor {
 
         return next.handle(request);
     }
+
+    private addToken(request: HttpRequest<any>, token: string) {
+        return request.clone({
+          setHeaders: {
+            Author: `Bearer ${token}`
+          }
+        });
+    }
+
 }

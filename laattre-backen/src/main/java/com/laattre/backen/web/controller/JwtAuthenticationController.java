@@ -3,6 +3,7 @@ package com.laattre.backen.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -26,7 +27,7 @@ import com.laattre.backen.spring.JwtTokenUtil;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationController {
 
 	@Autowired
@@ -38,6 +39,9 @@ public class JwtAuthenticationController {
 	@Autowired
 	private MyUserDetailsService userDetailsService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -47,8 +51,10 @@ public class JwtAuthenticationController {
 				.loadUserByUsername(authenticationRequest.getUsername());
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
+		
+		User user = userService.findUserByEmail(authenticationRequest.getUsername());
 
-		return ResponseEntity.ok(new JwtResponse(token, authenticationRequest.getUsername()));
+		return ResponseEntity.ok(new JwtResponse(token, userDetails, user));
 	}
 
 	private void authenticate(String username, String password) throws Exception {
@@ -59,5 +65,7 @@ public class JwtAuthenticationController {
 		} catch (BadCredentialsException e) {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
+		
+		
 	}
 }
