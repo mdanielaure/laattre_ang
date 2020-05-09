@@ -29,7 +29,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +46,7 @@ import com.laattre.backen.registration.OnRegistrationCompleteEvent;
 import com.laattre.backen.security.ISecurityUserService;
 import com.laattre.backen.service.UserService;
 import com.laattre.backen.web.dto.PasswordDto;
-import com.laattre.backen.web.dto.UserDto;
 import com.laattre.backen.web.error.InvalidOldPasswordException;
-import com.laattre.backen.web.error.UserAlreadyExistException;
 import com.laattre.backen.web.util.GenericResponse;
 
 
@@ -94,18 +91,17 @@ public class RegistrationController {
 //        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request)));
 //        return new GenericResponse("success");
 //    }
-    @SuppressWarnings("rawtypes")
-    public ResponseEntity registerUserAccount(@RequestBody User accountDto) {
+    public ResponseEntity<?> registerUserAccount(final HttpServletRequest request, @RequestBody User accountDto) {
     	LOGGER.debug("Registering user account with information: {}", accountDto);
     	final User registered = userService.registerNewUserAccount(accountDto);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, null, "http://localhost:4200"));
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, null, accountDto.getReturnUrl()));
         Map<Object, Object> model = new HashMap<>();
         model.put("message", "User registered successfully");
         return ok(model);
     }
 
-    @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
-    public String confirmRegistration(final HttpServletRequest request, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
+    @RequestMapping(value = "/user/registrationConfirm", method = RequestMethod.GET)
+    public ResponseEntity<?> confirmRegistration(final HttpServletRequest request, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
         Locale locale = request.getLocale();
         final String result = userService.validateVerificationToken(token);
         if (result.equals("valid")) {
@@ -116,24 +112,28 @@ public class RegistrationController {
             // }
             authWithoutPassword(user);
             model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
-            return "redirect:/console.html?lang=" + locale.getLanguage();
+            //return "redirect:/console.html?lang=" + locale.getLanguage();
+            return ok(model);
         }
 
         model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
         model.addAttribute("expired", "expired".equals(result));
         model.addAttribute("token", token);
-        return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        //return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        return ok(model);
     }
 
     // user activation - verification
 
     @RequestMapping(value = "/user/resendRegistrationToken", method = RequestMethod.GET)
     @ResponseBody
-    public GenericResponse resendRegistrationToken(final HttpServletRequest request, @RequestParam("token") final String existingToken) {
+    public ResponseEntity<?> resendRegistrationToken(final HttpServletRequest request, final Model model, @RequestParam("token") final String existingToken) {
         final VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
         final User user = userService.getUser(newToken.getToken());
-        mailSender.send(constructResendVerificationTokenEmail(getAppUrl(request), request.getLocale(), newToken, user));
-        return new GenericResponse(messages.getMessage("message.resendToken", null, request.getLocale()));
+        mailSender.send(constructResendVerificationTokenEmail(user.getReturnUrl(), request.getLocale(), newToken, user));
+        //return new GenericResponse(messages.getMessage("message.resendToken", null, request.getLocale()));
+        model.addAttribute("message", messages.getMessage("message.resendToken", null, request.getLocale()));
+        return ok(model);
     }
 
     // Reset password
@@ -192,7 +192,7 @@ public class RegistrationController {
     // ============== NON-API ============
 
     private SimpleMailMessage constructResendVerificationTokenEmail(final String contextPath, final Locale locale, final VerificationToken newToken, final User user) {
-        final String confirmationUrl = contextPath + "/registrationConfirm.html?token=" + newToken.getToken();
+        final String confirmationUrl = contextPath + "?token=" + newToken.getToken();
         final String message = messages.getMessage("message.resendToken", null, locale);
         return constructEmail("Resend Registration Token", message + " \r\n" + confirmationUrl, user);
     }

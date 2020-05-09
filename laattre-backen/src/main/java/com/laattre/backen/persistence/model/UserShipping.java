@@ -12,13 +12,15 @@ public class UserShipping {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String userShippingName;
+	private String userShippingFirstName;
+	private String userShippingLastName;
 	private String userShippingStreet1;
 	private String userShippingStreet2;
 	private String userShippingCity;
 	private String userShippingState;
 	private String userShippingCountry;
 	private String userShippingZipcode;
+	private String userShippingPhone;
 	private boolean userShippingDefault;
 	
 	
@@ -34,16 +36,6 @@ public class UserShipping {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-
-	public String getUserShippingName() {
-		return userShippingName;
-	}
-
-
-	public void setUserShippingName(String userShippingName) {
-		this.userShippingName = userShippingName;
 	}
 
 
@@ -124,6 +116,36 @@ public class UserShipping {
 
 	public void setUserShippingDefault(boolean userShippingDefault) {
 		this.userShippingDefault = userShippingDefault;
+	}
+
+
+	public String getUserShippingPhone() {
+		return userShippingPhone;
+	}
+
+
+	public void setUserShippingPhone(String userShippingPhone) {
+		this.userShippingPhone = userShippingPhone;
+	}
+
+
+	public String getUserShippingFirstName() {
+		return userShippingFirstName;
+	}
+
+
+	public void setUserShippingFirstName(String userShippingFirstName) {
+		this.userShippingFirstName = userShippingFirstName;
+	}
+
+
+	public String getUserShippingLastName() {
+		return userShippingLastName;
+	}
+
+
+	public void setUserShippingLastName(String userShippingLastName) {
+		this.userShippingLastName = userShippingLastName;
 	}
 	
 	

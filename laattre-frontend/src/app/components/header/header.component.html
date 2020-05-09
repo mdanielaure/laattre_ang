@@ -135,13 +135,13 @@
               </div>
               <div ngbDropdownItem class="shopping-cart-btns">
                 <button class="main-btn" routerLink ="/cart">View Cart</button>
-                <button class="primary-btn" routerLink ="/checkout">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+                <button class="primary-btn" (click) ="checkout(cart.id)">Checkout <i class="fa fa-arrow-circle-right"></i></button>
               </div>
             </div>
 
             <div *ngIf = "emptyCart" ngbDropdownItem id="shopping-cart">
               <h4>Your cart is empty!</h4>
-              <p>See if you can find what you like in our <a routerLink ="/products" style="color: blue !important;">store</a> and add them to cart.</p>
+              <p>See if you can find what you like in our <a routerLink ="/products" style="color: cornflowerblue !important;">store</a> and add them to cart.</p>
             </div>
 
           </div>

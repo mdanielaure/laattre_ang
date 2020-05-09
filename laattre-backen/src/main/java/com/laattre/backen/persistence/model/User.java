@@ -29,7 +29,7 @@ import com.laattre.backen.persistence.model.Role;
 
 @Entity
 @Table(name = "user_account")
-public class User implements UserDetails{
+public class User{
 
     /**
 	 * 
@@ -41,7 +41,6 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String username;
     
     private String firstName;
 
@@ -55,7 +54,8 @@ public class User implements UserDetails{
     private boolean enabled;
 
     private boolean isUsing2FA;
-
+    
+    @JsonIgnore
     private String secret;
     private String phone;
 
@@ -71,14 +71,19 @@ public class User implements UserDetails{
     private ShoppingCart shoppingCart;
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private List<UserShipping> userShippingList;
 	
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private List<UserPayment> userPaymentList;
 	
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Order> orderList;
+
+	public String returnUrl;
     
 
     public User() {
@@ -95,13 +100,6 @@ public class User implements UserDetails{
         this.id = id;
     }
     
-    public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
     public String getFirstName() {
         return firstName;
     }
@@ -233,38 +231,22 @@ public class User implements UserDetails{
         }
         return true;
     }
+    
+    
+    public String getReturnUrl() {
+		return returnUrl;
+	}
 
-    @Override
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
+
+	@Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", password=").append(password).append(", enabled=").append(enabled).append(", isUsing2FA=")
                 .append(isUsing2FA).append(", secret=").append(secret).append(", roles=").append(roles).append("]");
         return builder.toString();
     }
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

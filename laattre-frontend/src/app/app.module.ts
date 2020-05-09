@@ -42,6 +42,8 @@ import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.compo
 import { AddToCartComponent } from './pages/add-to-cart/add-to-cart.component';
 import { EmptyCartComponent } from './pages/empty-cart/empty-cart.component';
 import { RegistrationreactiveComponent } from './pages/registrationreactive/registrationreactive.component';
+import { RegistrationConfirmComponent } from './pages/registration-confirm/registration-confirm.component';
+import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 
 registerLocaleData(localeFr);
 
@@ -75,6 +77,8 @@ registerLocaleData(localeFr);
     AddToCartComponent,
     EmptyCartComponent,
     RegistrationreactiveComponent,
+    RegistrationConfirmComponent,
+    PaymentSuccessComponent,
   ],
   imports: [
     BrowserModule,

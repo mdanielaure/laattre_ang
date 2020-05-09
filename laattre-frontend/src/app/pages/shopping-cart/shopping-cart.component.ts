@@ -5,7 +5,8 @@ import { User } from 'src/app/models/user';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { map } from 'rxjs/operators';
 import { ProductService } from 'src/app/services/product.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -18,11 +19,14 @@ export class ShoppingCartComponent implements OnInit {
   currentUser: any;
   cartItemList: any;
   emptyCart: boolean = true;
+  errorMassage = "";
 
   constructor(
     private shoppingCartService: ShoppingCartService,
     private   productService: ProductService,
+    private route: ActivatedRoute,
     private router: Router,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -31,11 +35,18 @@ export class ShoppingCartComponent implements OnInit {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.getCart(this.currentUser.user.email); 
     } 
+
+    console.log("errorMessage "+this.route.snapshot.paramMap.get('errorMessage'));
+    if(this.route.snapshot.paramMap.get('errorMessage')){
+      this.errorMassage = this.route.snapshot.paramMap.get('errorMessage');
+      this.alertService.error(this.errorMassage);
+      
+    }
+    
                         
   }
 
   getCart(username: string) {
-    console.log(username);
     this.shoppingCartService.getCart(username)
     .pipe(
       map((data)=>{

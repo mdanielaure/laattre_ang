@@ -1,12 +1,14 @@
 package com.laattre.backen.web.error;
 
+import javax.mail.SendFailedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailAuthenticationException;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.mail.MailSendException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.laattre.backen.web.util.GenericResponse;
+import com.sun.mail.smtp.SMTPAddressFailedException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -124,6 +127,38 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     	logger.error("500 Status Code", ex);
         final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.error", null, request.getLocale()), "InternalError");
         return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND);
+ 
+    }
+
+    @ExceptionHandler({DisabledException.class})
+    public ResponseEntity<Object> handleResourceDisabledException(final DisabledException ex, final WebRequest request) {
+    	logger.error("500 Status Code", ex);
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("auth.message.disabled", null, request.getLocale()), "InternalError");
+        return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.FORBIDDEN);
+ 
+    }
+    
+    @ExceptionHandler({MailSendException.class})
+    public ResponseEntity<Object> handleMailSendException(final MailSendException ex, final WebRequest request) {
+    	logger.error("500 Status Code", ex);
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.badEmail", null, request.getLocale()), "InternalError");
+        return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+ 
+    }
+    
+    @ExceptionHandler({SendFailedException.class})
+    public ResponseEntity<Object> handleSendFailedException(final SendFailedException ex, final WebRequest request) {
+    	logger.error("500 Status Code", ex);
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.badEmail", null, request.getLocale()), "InternalError");
+        return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+ 
+    }
+    
+    @ExceptionHandler({SMTPAddressFailedException.class})
+    public ResponseEntity<Object> handleSMTPAddressFailedException(final SMTPAddressFailedException ex, final WebRequest request) {
+    	logger.error("500 Status Code", ex);
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.badEmail", null, request.getLocale()), "InternalError");
+        return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
  
     }
 

@@ -71,4 +71,8 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 });
     }
+
+    goToRegistration(){
+        this.router.navigate(['/registration']);
+    }
 }

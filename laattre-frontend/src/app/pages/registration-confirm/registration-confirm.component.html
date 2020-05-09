@@ -1,0 +1,7 @@
+<div class="container">
+    <app-alert></app-alert>
+    <p [ngClass]=" expired || ivalidToken  ? 'text-danger' :'text-success'" 
+    style="text-align: center;">{{confirmMessage}}</p>
+    <p *ngIf="!expired && !ivalidToken" style="text-align: center;"><button  class="primary-btn float-middle" (click)="goToLogin()">Login</button></p>
+    <p *ngIf="expired" style="text-align: center;"><button  class="primary-btn float-middle" (click)="resendToken()">Resend</button></p>
+</div>

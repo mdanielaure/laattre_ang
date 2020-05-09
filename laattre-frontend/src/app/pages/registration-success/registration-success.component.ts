@@ -20,4 +20,8 @@ export class RegistrationSuccessComponent implements OnInit {
     }
   }
 
+  goToLogin(){
+    this.router.navigate(['/login']);
+  }
+
 }

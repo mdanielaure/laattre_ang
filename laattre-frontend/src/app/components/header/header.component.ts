@@ -126,4 +126,13 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  checkout(cartId: any){
+    
+    if(!this.currentUser){
+     this.router.navigate(['login']);
+    } 
+     this.router.navigate(['checkout', cartId, this.currentUser.user.email]);
+     
+   }
+
 }

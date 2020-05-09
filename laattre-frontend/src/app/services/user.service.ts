@@ -20,4 +20,12 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(`${config.apiUrl}/users/${id}`);
     }
+
+    confirmRegistration(token: any){
+        return this.http.get(`${config.apiUrl}/user/registrationConfirm`, {params:{token}});
+    }
+
+    resendToken(oldToken: any){
+        return this.http.get(`${config.apiUrl}/user/resendRegistrationToken`, {params:{token:oldToken}});
+    }
 }

@@ -52,10 +52,11 @@
                 <input [class.is-invalid]="f.email.invalid && isSubmitted"
                 type="email" class="form-control" id="email" formControlName="email" placeholder="Email">   
             
-              </div>
+            </div>
 
 
-            <div *ngIf="f.password.invalid">
+            <!--passeword alerts-->
+            <!--<div *ngIf="f.password.invalid">
               <small>At least: </small>
               <small   
               [ngClass]="f.password.errors?.minLength || f.password.errors?.required ? 'text-danger' :'text-success'">
@@ -92,8 +93,18 @@
                 </i>
                 1 Special Character (!@#$%^&)  
             </small>
-            </div>
+            </div>-->
             
+            
+
+            <div *ngIf="f.password.invalid && isSubmitted">
+              <small *ngIf="f.password.errors?.required && isSubmitted" class="text-danger">password is required</small>  
+              <small *ngIf="f.password.errors?.pattern && isSubmitted" class="text-danger">
+                Your password must be between 8 and 30 characters long. 
+                It must contains at least 1 number, 1 Letter  in Capital Case,  1 Letter in Small Case,  1 Special Character (!@#$%^&) 
+                </small> 
+               
+            </div>
             <div class="form-group input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -111,9 +122,18 @@
                 </div> 
                 <input [class.is-invalid]="registrationForm.errors?.misMacth"
                 type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
-              </div>
+            </div>
+            <div class="form-group input-group"> 
+              <input type="hidden" class="form-control" formControlName="returnUrl" id="returnUrl" value="appnUrl">
+          </div>
             
-            
+            <div class="form-group">
+                <span>En cliquant sur inscription, j’accepte
+                <a routerLink ="/login" style="color: cornflowerblue !important;">les Conditions Générales d’Utilisation </a>
+                et je reconnais avoir lu la
+                <a routerLink ="/login" style="color: cornflowerblue!important;"> Politique de Confidentialité</a>.</span>
+             </div>
+
             <button [disabled]="loading" class="primary-btn float-right">
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
               Sign up</button>
@@ -121,9 +141,8 @@
           </form>
         </div>
         <div class="card-footer" style="background-color: transparent; text-align: center;">
-          <a th:href="@{/forgetPassword.html}" class="btn btn-link" th:text="#{label.form.loginForgotPassword}">Forgot Your Password?</a>
-          <span>.</span>
-            <a th:href="@{/registration.html}" class="btn btn-link" th:text="#{label.form.loginSignUp}">Sign up</a>
+          <span style="font-size: 1rem !important;">Already a member? </span>
+          <span><a style="color: cornflowerblue !important; font-size: 1rem !important;" routerLink ="/login">Login</a></span>
         </div>
       </div>
     </div>

@@ -6,21 +6,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ShippingAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String ShippingAddressName;
+	private String ShippingAddressFirstName;
+	private String ShippingAddressLastName;
 	private String ShippingAddressStreet1;
 	private String ShippingAddressStreet2;
 	private String ShippingAddressCity;
 	private String ShippingAddressState;
 	private String ShippingAddressCountry;
 	private String ShippingAddressZipcode;
+	private String ShippingAddressPhone;
 	
 	
 	@OneToOne
+	@JsonIgnore
 	private Order order;
 
 
@@ -31,16 +36,6 @@ public class ShippingAddress {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-
-	public String getShippingAddressName() {
-		return ShippingAddressName;
-	}
-
-
-	public void setShippingAddressName(String shippingAddressName) {
-		ShippingAddressName = shippingAddressName;
 	}
 
 
@@ -111,6 +106,36 @@ public class ShippingAddress {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+
+	public String getShippingAddressFirstName() {
+		return ShippingAddressFirstName;
+	}
+
+
+	public void setShippingAddressFirstName(String shippingAddressFirstName) {
+		ShippingAddressFirstName = shippingAddressFirstName;
+	}
+
+
+	public String getShippingAddressLastName() {
+		return ShippingAddressLastName;
+	}
+
+
+	public void setShippingAddressLastName(String shippingAddressLastName) {
+		ShippingAddressLastName = shippingAddressLastName;
+	}
+
+
+	public String getShippingAddressPhone() {
+		return ShippingAddressPhone;
+	}
+
+
+	public void setShippingAddressPhone(String shippingAddressPhone) {
+		ShippingAddressPhone = shippingAddressPhone;
 	}
 
 }

@@ -7,6 +7,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { MatchPasswordValidator } from 'src/app/shared/matching-password.validator';
 import { EmailValidator } from 'src/app/shared/email.validator';
 import { patternValidator } from 'src/app/shared/custom.validator';
+import { config } from 'src/app/config';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class RegistrationComponent implements OnInit {
     registrationForm: FormGroup; 
     loading = false;
     isSubmitted = false;
-
+    appnUrl = `${config.clientUrl}/registration-confirm`
     
 
 
@@ -52,28 +53,29 @@ export class RegistrationComponent implements OnInit {
       this.registrationForm = this.fb.group({
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        //password: ['', [Validators.required, Validators.pattern("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&]).{8,30})")]],
+        password: ['', [Validators.required, Validators.pattern("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&]).{8,30})")]],
         
-        password: [null, Validators.compose([
+       /* password: [null, Validators.compose([
             // 1. Password Field is Required
-            Validators.required,
+            //Validators.required,
             // 2. check whether the entered password has a number
-            patternValidator(/\d/, { hasNumber: true }),
+            //patternValidator(/\d/, { hasNumber: true }),
              // 3. check whether the entered password has upper case letter
-            patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+           // patternValidator(/[A-Z]/, { hasCapitalCase: true }),
             // 4. check whether the entered password has a lower-case letter
-            patternValidator(/[a-z]/, { hasSmallCase: true }),
+            //patternValidator(/[a-z]/, { hasSmallCase: true }),
             // 5. check whether the entered password has a special character
-            patternValidator(/[!@#$%^&]/, { hasSpecialCharacters: true }),
+            //patternValidator(/[!@#$%^&]/, { hasSpecialCharacters: true }),
             // 6. Has a minimum length of 8 characters
             Validators.minLength(8)
             
             ])
-        ],
+        ],*/
         
         email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
         //email: ['', [Validators.required, EmailValidator]],
-        confirmPassword: ['']
+        confirmPassword: [''],
+        returnUrl: [this.appnUrl]
     }, {validators: MatchPasswordValidator});
   }
 
@@ -104,5 +106,6 @@ export class RegistrationComponent implements OnInit {
                   this.loading = false;
               });
   }
+
 
 }

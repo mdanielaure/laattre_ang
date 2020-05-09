@@ -5,6 +5,7 @@
     <!-- container -->
     <div class="container">
         <app-alert></app-alert>
+        <div *ngIf="errorMassage" class="alert alert-danger">{{errorMassage}}</div>
 
             <form id="cart-form" class="clearfix">
 

@@ -1,11 +1,16 @@
 package com.laattre.backen.web.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,13 +19,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.laattre.backen.persistence.model.BillingAddress;
 import com.laattre.backen.persistence.model.CartItem;
+import com.laattre.backen.persistence.model.Order;
 import com.laattre.backen.persistence.model.Payment;
 import com.laattre.backen.persistence.model.ShippingAddress;
 import com.laattre.backen.persistence.model.ShoppingCart;
@@ -37,11 +54,15 @@ import com.laattre.backen.service.ShoppingCartService;
 import com.laattre.backen.service.UserPaymentService;
 import com.laattre.backen.service.UserService;
 import com.laattre.backen.service.UserShippingService;
+import com.laattre.backen.web.dto.CheckoutDto;
+import com.laattre.backen.web.util.MailConstructor;
 
 
 @CrossOrigin(origins= "*")
 @RestController
 public class CheckoutController {
+	
+	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	private ShippingAddress shippingAddress = new ShippingAddress();
 	private BillingAddress billingAddress = new BillingAddress();
@@ -50,8 +71,8 @@ public class CheckoutController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	/*@Autowired
-	private MailConstructor mailConstructor;*/
+	@Autowired
+	private MailConstructor mailConstructor;
 	
 	@Autowired
 	private UserService userService;
@@ -142,7 +163,7 @@ public class CheckoutController {
 		}
 
 		model.addAttribute("shippingAddress", shippingAddress);
-		model.addAttribute("payment", payment);
+		//model.addAttribute("payment", payment);
 		model.addAttribute("billingAddress", billingAddress);
 		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("shoppingCart", shoppingCart);
@@ -160,43 +181,97 @@ public class CheckoutController {
 		return ResponseEntity.ok(model);
 
 	}
+	
+	
+	public class MapSerializer extends JsonSerializer<SpecialMap> {
+	    @Override
+	    public void serialize(SpecialMap map, JsonGenerator jgen,
+	                          SerializerProvider provider) throws IOException,
+	            JsonProcessingException {
+	        jgen.writeStartObject();
+	        for (String key : map.keySet()) {
+	            jgen.writeStringField(key, map.get(key));
+	        }
+	        jgen.writeEndObject();
+	    }
+	}
 
-	/*@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String checkoutPost(@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
-			@ModelAttribute("billingAddress") BillingAddress billingAddress, @ModelAttribute("payment") Payment payment,
-			@ModelAttribute("billingSameAsShipping") String billingSameAsShipping,
-			@ModelAttribute("shippingMethod") String shippingMethod, Principal principal, Model model) {
-		ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
+
+	public class SpecialMap extends HashMap<String,String> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6743317974559229706L;
+	}
+	
+
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+	public ResponseEntity<?> checkoutPost(@RequestBody CheckoutDto checkoutDto 
+			//Model model
+			) throws IOException{
+		
+		//resolve SerializationFeature.FAIL_ON_EMPTY_BEANS issue
+		Map<String, Object> model = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(SpecialMap.class, new MapSerializer());
+        mapper.registerModule(module);
+
+
+		LOGGER.debug("Checkout with folowing info {}", checkoutDto);
+		
+		billingAddress = checkoutDto.getBillingAddress();
+		shippingAddress = checkoutDto.getShippingAddress();
+		payment = checkoutDto.getPayment();
+		
+		ShoppingCart shoppingCart = userService.findUserByEmail(checkoutDto.getUsername()).getShoppingCart();
 
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		model.addAttribute("cartItemList", cartItemList);
+		
+		//resolve SerializationFeature.FAIL_ON_EMPTY_BEANS issue
+		String serialized = mapper.writeValueAsString(cartItemList);
+	       // return serialized;
+		model.put("cartItemList", serialized);
 
-		if (billingSameAsShipping.equals("true")) {
-			billingAddress.setBillingAddressName(shippingAddress.getShippingAddressName());
+		if (checkoutDto.getBillingSameAsShipping().equals("true")) {
+			billingAddress.setBillingAddressFirstName(shippingAddress.getShippingAddressFirstName());
+			billingAddress.setBillingAddressLastName(shippingAddress.getShippingAddressLastName());
 			billingAddress.setBillingAddressStreet1(shippingAddress.getShippingAddressStreet1());
 			billingAddress.setBillingAddressStreet2(shippingAddress.getShippingAddressStreet2());
 			billingAddress.setBillingAddressCity(shippingAddress.getShippingAddressCity());
 			billingAddress.setBillingAddressState(shippingAddress.getShippingAddressState());
 			billingAddress.setBillingAddressCountry(shippingAddress.getShippingAddressCountry());
 			billingAddress.setBillingAddressZipcode(shippingAddress.getShippingAddressZipcode());
+			billingAddress.setBillingAddressPhone(shippingAddress.getShippingAddressPhone());
 		}
 
-		if (shippingAddress.getShippingAddressStreet1().isEmpty() 
+		/*if (shippingAddress.getShippingAddressStreet1().isEmpty() 
 				|| shippingAddress.getShippingAddressCity().isEmpty()
 				|| shippingAddress.getShippingAddressState().isEmpty()
-				|| shippingAddress.getShippingAddressName().isEmpty()
+				|| shippingAddress.getShippingAddressFirstName().isEmpty()
+				|| shippingAddress.getShippingAddressLastName().isEmpty()
 				|| shippingAddress.getShippingAddressZipcode().isEmpty() 
-				|| payment.getCardNumber().isEmpty()
-				|| payment.getCvc() == 0 || billingAddress.getBillingAddressStreet1().isEmpty()
+				|| shippingAddress.getShippingAddressPhone().isEmpty()
+				//|| payment.getCardNumber().isEmpty()
+				//|| payment.getCvc() == 0 
+				|| billingAddress.getBillingAddressStreet1().isEmpty()
 				|| billingAddress.getBillingAddressCity().isEmpty() 
 				|| billingAddress.getBillingAddressState().isEmpty()
-				|| billingAddress.getBillingAddressName().isEmpty()
-				|| billingAddress.getBillingAddressZipcode().isEmpty())
-			return "redirect:/checkout?id=" + shoppingCart.getId() + "&missingRequiredField=true";
+				|| billingAddress.getBillingAddressFirstName().isEmpty()
+				|| billingAddress.getBillingAddressLastName().isEmpty()
+				|| billingAddress.getBillingAddressZipcode().isEmpty()
+				|| billingAddress.getBillingAddressPhone().isEmpty()) {
+			//return "redirect:/checkout?id=" + shoppingCart.getId() + "&missingRequiredField=true";
+			model.addAttribute("missingRequiredField", true);
+			return ResponseEntity.ok(model);
+		}*/
+			
 		
-		User user = userService.findByUsername(principal.getName());
+		User user = userService.findUserByEmail(checkoutDto.getUsername());
 		
-		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
+		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, checkoutDto.getShippingMethod(), user);
 		
 		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH));
 		
@@ -205,18 +280,19 @@ public class CheckoutController {
 		LocalDate today = LocalDate.now();
 		LocalDate estimatedDeliveryDate;
 		
-		if (shippingMethod.equals("groundShipping")) {
+		if (checkoutDto.getShippingMethod().equals("groundShipping")) {
 			estimatedDeliveryDate = today.plusDays(5);
 		} else {
 			estimatedDeliveryDate = today.plusDays(3);
 		}
 		
-		model.addAttribute("estimatedDeliveryDate", estimatedDeliveryDate);
+		model.put("estimatedDeliveryDate", estimatedDeliveryDate);
 		
-		return "orderSubmittedPage";
+		//return "orderSubmittedPage";
+		return ResponseEntity.ok(model);
 	}
 
-	@RequestMapping("/setShippingAddress")
+	/*@RequestMapping("/setShippingAddress")
 	public String setShippingAddress(@RequestParam("userShippingId") Long userShippingId, Principal principal,
 			Model model) {
 		User user = userService.findByUsername(principal.getName());

@@ -5,108 +5,202 @@
     <!-- container -->
     <div class="container">
         <app-alert></app-alert>
-        <!-- row -->
-        <div class="row">
-        <!--Google map-->
-            <form id="checkout-form" class="clearfix">
-                <div class="col-md-6">
+
+        <mat-horizontal-stepper linear #stepper>
+            <mat-step [stepControl]="shippingAddress">
+              <form [formGroup]="shippingAddress">
+                <ng-template matStepLabel>Shipping Details</ng-template>
+                <mat-form-field>
                     <div class="billing-details">
-                        <p>Already a customer ? <a href="#">Login</a></p>
-                        <div class="section-title">
+                        <div class="section-title col-md-8">
+                            <h3 class="title">Shipping Details</h3>
+                        </div>
+
+                        <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressFirstName.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressFirstName" formControlName="shippingAddressFirstName" placeholder="*First Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressLastName.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressLastName" formControlName="shippingAddressLastName" placeholder="*Last Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressStreet1.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressStreet1" formControlName="shippingAddressStreet1" placeholder="*Adresss">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressStreet2.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressStreet2" formControlName="shippingAddressStreet2" placeholder="Complement d'adresse">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressCountry.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressCountry" formControlName="shippingAddressCountry" placeholder="*Country">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressState.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressState" formControlName="shippingAddressState" placeholder="*State">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressCity.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressCity" formControlName="shippingAddressCity" placeholder="*City">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressZipCode.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressZipCode" formControlName="shippingAddressZipCode" placeholder="*Zip Code">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressPhone.invalid && firstNextClicked" 
+                            type="tel" class="form-control input" id="shippingAddressPhone" formControlName="shippingAddressPhone" placeholder="*Phone">   
+                          </div>
+                          <!--<div class="form-group">
+                            <div class="input-checkbox">
+                              <input type="checkbox" id="savebillingAddress" name="savebillingAddress">&nbsp;&nbsp;&nbsp;
+                                      <label class="font-weak" for="savebillingAddress"> Save this billing address</label>
+                            </div>
+                          </div>-->
+                    </div>
+                </mat-form-field>
+                <div>
+                  <button  matStepperNext class="primary-btn" (click)="setfirstNextClick()">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="billingAddress" [optional]="isOptional">
+              <form [formGroup]="billingAddress">
+                <ng-template matStepLabel>Billing Details</ng-template>
+                <mat-form-field>
+                    <div class="billing-details">
+                        <div class="section-title col-md-8">
                             <h3 class="title">Billing Details</h3>
                         </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="first-name" placeholder="First Name">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="last-name" placeholder="Last Name">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="email" name="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="address" placeholder="Address">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="city" placeholder="City">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="country" placeholder="Country">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="tel" name="tel" placeholder="Telephone">
-                        </div>
+
                         <div class="form-group">
                             <div class="input-checkbox">
-                                <input type="checkbox" id="register">
-                                <label class="font-weak" for="register">Create Account?</label>
+                                <input type="checkbox" id="sameAddress" name="sameAddress" (click)="setSameAddress()">&nbsp;&nbsp;&nbsp;
+                                        <label class="font-weak" for="sameAddress"> The same as shipping address</label>
+                            </div>
+                        </div>
+                        <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressFirstName.invalid && secondNextClicked"
+                            type="text" class="form-control input" id="billingAddressFirstName" formControlName="billingAddressFirstName" placeholder="*First Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressLastName.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressLastName" formControlName="billingAddressLastName" placeholder="*Last Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressStreet1.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressStreet1" formControlName="billingAddressStreet1" placeholder="*Adresss">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressStreet2.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressStreet2" formControlName="billingAddressStreet2" placeholder="Complement d'adresse">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressCountry.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressCountry" formControlName="billingAddressCountry" placeholder="*Country">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressState.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressState" formControlName="billingAddressState" placeholder="*State">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressCity.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressCity" formControlName="billingAddressCity" placeholder="*City">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressZipCode.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressZipCode" formControlName="billingAddressZipCode" placeholder="*Zip Code">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressPhone.invalid && secondNextClicked" 
+                            type="tel" class="form-control input" id="billingAddressPhone" formControlName="billingAddressPhone" placeholder="*Phone">   
+                          </div>
+                    </div>
+                    
+                </mat-form-field>
+                <div>
+                  <button  matStepperPrevious class="primary-btn">Back</button>
+                  <button  matStepperNext class="primary-btn" (click)="setsecondNextClick()">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="shippingMethod" [optional]="isOptional">
+                <form [formGroup]="shippingMethod">
+                  <ng-template matStepLabel>Shipping Methods</ng-template>
+                  <mat-form-field>
+                    <div class="col-md-8">
+                        <div class="shiping-methods">
+                            <div class="section-title">
+                                <h4 class="title">Shipping Methods</h4>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="shippingMethod" name="shippingMethod" id="shippingMethod-1" value="freeShipping" checked>
+                                <label for="shippingMethod-1"> Free Shipping -  $0.00</label>
                                 <div class="caption">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
-                                        <p>
-                                            <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                                    <p>Details goes here<p>
                                 </div>
                             </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="shippingMethod" name="shippingMethod" id="shippingMethod-2" value="standardShipping">
+                                <label for="shippingMethod-2"> Standard - $4.00</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                </div>
+                  </mat-form-field>
+                  <div>
+                    <button  matStepperPrevious class="primary-btn">Back</button>
+                    <button  matStepperNext class="primary-btn">Next</button>
+                  </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="paymentMethod" [optional]="isOptional">
+                <form [formGroup]="paymentMethod">
+                  <ng-template matStepLabel>Payment Methods</ng-template>
+                  <mat-form-field>
+                    <div class="col-md-8">   
+                        <div class="payments-methods">
+                            <div class="section-title">
+                                <h4 class="title">Payments Methods</h4>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="type" name="type" id="payments-1" value="carte" checked>
+                                <label for="payments-1">Direct Bank Transfer</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="type" name="type" id="payments-2" value="cheque">
+                                <label for="payments-2">Cheque Payment</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="type" name="type" id="payments-3" value="paypal">
+                                <label for="payments-3">Paypal System</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
 
-                <div class="col-md-6">
-                    <div class="shiping-methods">
-                        <div class="section-title">
-                            <h4 class="title">Shiping Methods</h4>
-                        </div>
-                        <div class="input-checkbox">
-                            <input type="radio" name="shipping" id="shipping-1" checked>
-                            <label for="shipping-1">Free Shiping -  $0.00</label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    <p>
-                            </div>
-                        </div>
-                        <div class="input-checkbox">
-                            <input type="radio" name="shipping" id="shipping-2">
-                            <label for="shipping-2">Standard - $4.00</label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    <p>
-                            </div>
                         </div>
                     </div>
-
-                    <div class="payments-methods">
-                        <div class="section-title">
-                            <h4 class="title">Payments Methods</h4>
-                        </div>
-                        <div class="input-checkbox">
-                            <input type="radio" name="payments" id="payments-1" checked>
-                            <label for="payments-1">Direct Bank Transfer</label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    <p>
-                            </div>
-                        </div>
-                        <div class="input-checkbox">
-                            <input type="radio" name="payments" id="payments-2">
-                            <label for="payments-2">Cheque Payment</label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    <p>
-                            </div>
-                        </div>
-                        <div class="input-checkbox">
-                            <input type="radio" name="payments" id="payments-3">
-                            <label for="payments-3">Paypal System</label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    <p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                  </mat-form-field>
+                  <div>
+                    <button matStepperPrevious class="primary-btn">Back</button>
+                    <button  matStepperNext class="primary-btn">Next</button>
+                  </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Order Review</ng-template>
+              
                 <div class="col-md-12">
                     <div class="order-summary clearfix">
                         <div class="section-title">
@@ -165,14 +259,18 @@
                             </tfoot>
                         </table>
                         <div class="pull-right">
-                            <button class="primary-btn" (click) ="checkout(cart.id)">Place Order</button>
+                            <button class="primary-btn" (click) ="placeOrder()">Place Order</button>
                         </div>
                     </div>
 
                 </div>
-            </form>
-        </div>
-        <!-- /row -->
+
+              <div>
+                <button class="primary-btn" matStepperPrevious>Back</button>
+                <button class="primary-btn" (click)="stepper.reset()">Reset</button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
     </div>
     <!-- /container -->
 </div>
