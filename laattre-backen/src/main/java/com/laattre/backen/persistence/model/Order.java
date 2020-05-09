@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="user_order")
 public class Order {
@@ -24,10 +26,12 @@ public class Order {
 	private Date orderDate;
 	private Date shippingDate;
 	private String shippingMethod;
+	private String paymentMethod;
 	private String orderStatus;
 	private BigDecimal orderTotal;
 	
 	@OneToMany(mappedBy = "order", cascade=CascadeType.ALL )
+	@JsonIgnore
 	private List<CartItem> cartItemList;
 	
 	@OneToOne(cascade=CascadeType.ALL)
@@ -130,6 +134,14 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 	
 	

@@ -12,7 +12,7 @@ import com.laattre.backen.web.error.UserAlreadyExistException;
 
 public interface UserService {
 
-    User registerNewUserAccount(UserDto accountDto) throws UserAlreadyExistException;
+    User registerNewUserAccount(User user) throws UserAlreadyExistException;
 
     User getUser(String verificationToken);
 

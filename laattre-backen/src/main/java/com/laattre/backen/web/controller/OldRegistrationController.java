@@ -101,7 +101,7 @@ public class OldRegistrationController {
     }
 
     @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid final UserDto userDto, final HttpServletRequest request, final Errors errors) {
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid final User userDto, final HttpServletRequest request, final Errors errors) {
         LOGGER.debug("Registering user account with information: {}", userDto);
 
         final User registered = userService.registerNewUserAccount(userDto);

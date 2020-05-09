@@ -13,13 +13,15 @@ public class UserBilling {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String userBillingName;
+	private String userBillingFirstName;
+	private String userBillingLastName;
 	private String userBillingStreet1;
 	private String userBillingStreet2;
 	private String userBillingCity;
 	private String userBillingState;
 	private String userBillingCountry;
 	private String userBillingZipcode;
+	private String userBillingPhone;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private UserPayment userPayment;
@@ -32,13 +34,7 @@ public class UserBilling {
 		this.id = id;
 	}
 
-	public String getUserBillingName() {
-		return userBillingName;
-	}
 
-	public void setUserBillingName(String userBillingName) {
-		this.userBillingName = userBillingName;
-	}
 
 	public String getUserBillingStreet1() {
 		return userBillingStreet1;
@@ -94,6 +90,31 @@ public class UserBilling {
 
 	public void setUserPayment(UserPayment userPayment) {
 		this.userPayment = userPayment;
+	}
+
+
+	public String getUserBillingLastName() {
+		return userBillingLastName;
+	}
+
+	public void setUserBillingLastName(String userBillingLastName) {
+		this.userBillingLastName = userBillingLastName;
+	}
+
+	public String getUserBillingFirstName() {
+		return userBillingFirstName;
+	}
+
+	public void setUserBillingFirstName(String userBillingFirstName) {
+		this.userBillingFirstName = userBillingFirstName;
+	}
+
+	public String getUserBillingPhone() {
+		return userBillingPhone;
+	}
+
+	public void setUserBillingPhone(String userBillingPhone) {
+		this.userBillingPhone = userBillingPhone;
 	}
 	
 	

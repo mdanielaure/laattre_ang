@@ -1,0 +1,86 @@
+
+a {
+    text-decoration: none;
+    color: white !important;
+}
+ 
+a:hover, a:active{
+    color: lightgray !important;
+}
+
+.drop-menu{
+  border-top: 2px solid #f5af02 !important;
+  left: 50% !important;
+  -webkit-transform: translateX(-50%) translateY(15px) !important;
+  -ms-transform: translateX(-50%) translateY(15px) !important;
+  transform: translateX(-50%) translateY(15px) !important;
+  position: absolute !important;
+  z-index: 100 !important;
+  background: #FFF !important;
+  -webkit-box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.175) !important;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.175) !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  -webkit-transition: 0.3s all !important;
+  transition: 0.3s all !important;
+  margin-top: -15px !important;
+}
+ 
+.navigation-items{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation-items>li>a{
+    display: block;
+    padding: 15px;
+    color: #FFF !important;
+    text-transform: uppercase !important;
+    font-size: .80rem !important;
+    font-family: 'Hind', sans-serif !important;
+    font-weight: 700;
+  }
+  .navigation-items>li>a:hover, .navigation-items>li>a:focus{
+    color: #f5af02 !important;
+  }
+
+::ng-deep.mat-menu-panel {
+    max-width: none !important;
+    position: absolute !important;
+    width: 81.5% !important;
+    padding: 15px !important;
+    background: #FFF !important;
+    -webkit-box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.175) !important;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.175) !important;
+    -webkit-transition: 0.3s all !important;
+    transition: 0.3s all !important;
+    border-radius: 0px !important;
+    border-top: 2px solid #f5af02 !important;
+    top: -5px !important;
+    color: #4A4E5A;
+    line-height: 1.42857143 !important;
+    font-size: .80rem !important;
+    font-family: 'Hind', sans-serif !important;
+    z-index: 100 !important;
+  }
+
+  .list-links li > a{
+    color: #30323A !important;
+  }
+
+  .list-links li > a:hover{
+    color: #f5af02!important;
+  }
+
+ 
+mat-toolbar{
+    border-radius: 0px;
+    background-color: #30323A !important;
+}
+ 
+@media(max-width: 959px){
+    mat-toolbar{
+        border-radius: 0px;
+    }
+}

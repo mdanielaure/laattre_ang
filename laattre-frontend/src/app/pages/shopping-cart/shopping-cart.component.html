@@ -1,0 +1,94 @@
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <app-alert></app-alert>
+        <div *ngIf="errorMassage" class="alert alert-danger">{{errorMassage}}</div>
+
+            <form id="cart-form" class="clearfix">
+
+                <div *ngIf = "!emptyCart" class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Order Review</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th></th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-right"></th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor = "let cartItem of cartItemList">
+                                <tr>
+                                    <td class="thumb"><img [src]="getImage(cartItem.product.id)" alt=""></td>
+                                    <td class="details">
+                                        <a [routerLink] = "['/product-details', cartItem.product.id]">{{cartItem.product.name}}</a>
+                                        <ul>
+                                            <li><span>Size: XL</span></li>
+                                            <li><span>Color: Camelot</span></li>
+                                            <li><span>Number in stock: {{cartItem.product.inStockNumber}}</span></li>
+                                        </ul>
+                                    </td>
+                                    <td class="price text-center"><strong>{{cartItem.product.ourPrice | currency: 'EUR': 'symbol': '2.0-2'}}</strong>
+                                        <br>
+                                        <del class="font-weak"><small>{{cartItem.product.listPrice | currency: 'EUR': 'symbol': '2.0-2'}}</small></del></td>
+                                    <td class="qty text-center">
+                                        <input class="input" type="number" value ="{{cartItem.qty}}" 
+                                        max="{{cartItem.product.inStockNumber}}" min="1"
+                                        (change) = "updateCartItemQty($event, cartItem.id)">
+                                    </td>
+                                    <td class="total text-center"><strong class="primary-color">{{cartItem.subtotal | currency: 'EUR': 'symbol': '2.0-2'}}</strong></td>
+                                    <td class="text-right"><button class="main-btn icon-btn" (click) = "deleteItem(cartItem.id)"><i class="fas fa-times"></i></button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SUBTOTAL</th>
+                                    <th colspan="2" class="sub-total">$97.50</th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SHIPING</th>
+                                    <td colspan="2">Free Shipping</td>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>TOTAL</th>
+                                    <th colspan="2" class="total">{{cart.grandTotal | currency: 'EUR': 'symbol': '2.0-2'}}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="pull-left">
+                            <button class="primary-btn" routerLink ="/products">Continue shopping</button>
+                        </div>
+                        <div class="pull-right">
+                            <button class="primary-btn" (click) ="checkout(cart.id)">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <app-empty-cart *ngIf = "emptyCart"></app-empty-cart>
+            <!--<div *ngIf = "emptyCart" class="col-md-12" style="align-content: center !important; text-align: center !important;">
+                <h3>Your cart is empty!</h3>
+                <br>
+                <br>
+                <h1><i class="fa fa-shopping-cart" style="color: #f5af02 !important;"></i></h1>
+                <br>
+                <p>See if you can find what you like in our <a routerLink ="/products" style="color: blue !important;">store</a> and add them to cart.</p>
+                <br>
+                <p><button class="primary-btn" routerLink ="/products">Continue shopping</button></p>
+            </div>-->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->

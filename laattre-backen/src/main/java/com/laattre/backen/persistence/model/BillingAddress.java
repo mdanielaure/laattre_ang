@@ -12,13 +12,15 @@ public class BillingAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String BillingAddressName;
+	private String BillingAddressFirstName;
+	private String BillingAddressLastName;
 	private String BillingAddressStreet1;
 	private String BillingAddressStreet2;
 	private String BillingAddressCity;
 	private String BillingAddressState;
 	private String BillingAddressCountry;
 	private String BillingAddressZipcode;
+	private String BillingAddressPhone;
 	
 	@OneToOne
 	private Order order;
@@ -31,13 +33,6 @@ public class BillingAddress {
 		this.id = id;
 	}
 
-	public String getBillingAddressName() {
-		return BillingAddressName;
-	}
-
-	public void setBillingAddressName(String billingAddressName) {
-		BillingAddressName = billingAddressName;
-	}
 
 	public String getBillingAddressStreet1() {
 		return BillingAddressStreet1;
@@ -93,6 +88,30 @@ public class BillingAddress {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public String getBillingAddressPhone() {
+		return BillingAddressPhone;
+	}
+
+	public void setBillingAddressPhone(String billingAddressPhone) {
+		BillingAddressPhone = billingAddressPhone;
+	}
+
+	public String getBillingAddressLastName() {
+		return BillingAddressLastName;
+	}
+
+	public void setBillingAddressLastName(String billingAddressLastName) {
+		BillingAddressLastName = billingAddressLastName;
+	}
+
+	public String getBillingAddressFirstName() {
+		return BillingAddressFirstName;
+	}
+
+	public void setBillingAddressFirstName(String billingAddressFirstName) {
+		BillingAddressFirstName = billingAddressFirstName;
 	}
 
 }

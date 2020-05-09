@@ -18,21 +18,30 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.jboss.aerogear.security.otp.api.Base32;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.laattre.backen.persistence.model.UserShipping;
 import com.laattre.backen.persistence.model.ShoppingCart;
 import com.laattre.backen.persistence.model.UserPayment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laattre.backen.persistence.model.Role;
 
 @Entity
 @Table(name = "user_account")
-public class User {
+public class User{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8195049575535959795L;
+
+	@Id
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
+    
     private String firstName;
 
     private String lastName;
@@ -45,7 +54,8 @@ public class User {
     private boolean enabled;
 
     private boolean isUsing2FA;
-
+    
+    @JsonIgnore
     private String secret;
     private String phone;
 
@@ -53,20 +63,27 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JsonIgnore
     private Collection<Role> roles;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private ShoppingCart shoppingCart;
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private List<UserShipping> userShippingList;
 	
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private List<UserPayment> userPaymentList;
 	
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Order> orderList;
+
+	public String returnUrl;
     
 
     public User() {
@@ -82,7 +99,7 @@ public class User {
     public void setId(final Long id) {
         this.id = id;
     }
-
+    
     public String getFirstName() {
         return firstName;
     }
@@ -214,8 +231,17 @@ public class User {
         }
         return true;
     }
+    
+    
+    public String getReturnUrl() {
+		return returnUrl;
+	}
 
-    @Override
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
+
+	@Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", password=").append(password).append(", enabled=").append(enabled).append(", isUsing2FA=")

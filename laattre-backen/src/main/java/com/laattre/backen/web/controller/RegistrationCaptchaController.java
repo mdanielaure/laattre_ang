@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.laattre.backen.captcha.ICaptchaService;
 import com.laattre.backen.persistence.model.User;
@@ -19,7 +20,7 @@ import com.laattre.backen.web.util.GenericResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class RegistrationCaptchaController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
@@ -40,7 +41,7 @@ public class RegistrationCaptchaController {
 
     @RequestMapping(value = "/user/registrationCaptcha", method = RequestMethod.POST)
     @ResponseBody
-    public GenericResponse captchaRegisterUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
+    public GenericResponse captchaRegisterUserAccount(@Valid final User accountDto, final HttpServletRequest request) {
 
         final String response = request.getParameter("g-recaptcha-response");
         captchaService.processResponse(response);

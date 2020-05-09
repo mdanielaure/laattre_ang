@@ -41,7 +41,7 @@
 						<input hidden="hidden" name="id" th:value="${product.id}" />
 						<input th:id="'selected'+${product.id}" class="checkboxProduct" type="checkbox" />
 						</td>
-						<td><a th:href="@{/product/productInfo(id=${product.id})}"><span th:text="${product.name}"></span></a></td>
+						<td><a th:href="@{/api/product/productInfo(id=${product.id})}"><span th:text="${product.name}"></span></a></td>
 						<!-- <td th:text="${product.author}"></td> -->
 						<td th:text="${product.Type}"></td>
 						<td th:text="${product.listPrice}"></td>

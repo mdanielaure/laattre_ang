@@ -1,0 +1,154 @@
+<div class="container col-lg-4">
+    <app-alert></app-alert>
+    <div class="section-title">
+      <h3 class="title">Sign up</h3>
+    </div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            <!--<div class="alert alert-warning" *ngIf="isSubmitted && f.firstName.errors">
+              <div *ngIf="f.firstName.errors.required">FirstName is required</div>
+            </div>
+
+            <div class="alert alert-warning" *ngIf="isSubmitted && f.lastName.errors">
+                <div *ngIf="f.lastName.errors.required">LastName is required</div>
+            </div>
+
+            <div class="alert alert-warning" *ngIf="isSubmitted && f.password.errors">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>-->
+            
+            <div *ngIf="f.firstName.invalid && isSubmitted">
+              <small *ngIf="f.firstName.errors?.required && isSubmitted" class="text-danger">First Name is required</small>
+            </div>
+            <div class="form-group input-group">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input [class.is-invalid]="f.firstName.invalid && isSubmitted" 
+              type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First Name">   
+              
+            </div> 
+            
+            <div *ngIf="f.lastName.invalid && isSubmitted">
+              <small *ngIf="f.lastName.errors?.required && isSubmitted" class="text-danger">Last Name is required</small>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input [class.is-invalid]="f.lastName.invalid && isSubmitted" 
+                type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Last Name">   
+            </div>
+
+            <div *ngIf="f.email.invalid && isSubmitted">
+              <small *ngIf="f.email.errors?.required && isSubmitted" class="text-danger">Email is required</small>  
+              <small *ngIf="f.email.errors?.pattern && isSubmitted" class="text-danger">Enter a valid email address</small> 
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-at"></i></span>
+                </div>
+                <input [class.is-invalid]="f.email.invalid && isSubmitted"
+                type="email" class="form-control" id="email" formControlName="email" placeholder="Email">   
+            
+            </div>
+
+
+            <!--passeword alerts-->
+            <!--<div *ngIf="f.password.invalid">
+              <small>At least: </small>
+              <small   
+              [ngClass]="f.password.errors?.minLength || f.password.errors?.required ? 'text-danger' :'text-success'">
+                <i class="material-icons" style="font-size: 12px !important;">
+                  {{ f.password.errors?.minLength? 'cancel' : 'check_circle' }}
+                </i>
+                 8 characters  
+            </small>
+            <small  
+              [ngClass]="f.password.errors?.hasNumber || f.password.errors?.required  ? 'text-danger' :'text-success'">
+                <i class="material-icons" style="font-size: 12px !important;">
+                  {{ f.password.errors?.hasNumber? 'cancel' : 'check_circle' }}
+                </i>
+                1 number  
+            </small>
+            <small  
+              [ngClass]="f.password.errors?.hasCapitalCase || f.password.errors?.required ? 'text-danger' :'text-success'">
+                <i class="material-icons" style="font-size: 12px !important;">
+                  {{ f.password.errors?.hasCapitalCase? 'cancel' : 'check_circle' }}
+                </i>
+                1 Letter  in Capital Case  
+            </small>
+            <small 
+              [ngClass]="f.password.errors?.hasSmallCase || f.password.errors?.required ? 'text-danger' :'text-success'">
+                <i class="material-icons" style="font-size: 12px !important;">
+                  {{ f.password.errors?.hasSmallCase? 'cancel' : 'check_circle' }}
+                </i>
+                1 Letter in Small Case  
+            </small>
+            <small  
+              [ngClass]="f.password.errors?.hasSpecialCharacters || f.password.errors?.required ? 'text-danger' :'text-success'">
+                <i class="material-icons" style="font-size: 12px !important;">
+                  {{ f.password.errors?.hasSpecialCharacters? 'cancel' : 'check_circle' }}
+                </i>
+                1 Special Character (!@#$%^&)  
+            </small>
+            </div>-->
+            
+            
+
+            <div *ngIf="f.password.invalid && isSubmitted">
+              <small *ngIf="f.password.errors?.required && isSubmitted" class="text-danger">password is required</small>  
+              <small *ngIf="f.password.errors?.pattern && isSubmitted" class="text-danger">
+                Your password must be between 8 and 30 characters long. 
+                It must contains at least 1 number, 1 Letter  in Capital Case,  1 Letter in Small Case,  1 Special Character (!@#$%^&) 
+                </small> 
+               
+            </div>
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+              </div> 
+              <input [class.is-invalid]="f.password.invalid && isSubmitted"
+              type="password" class="form-control" formControlName="password" id="password" placeholder="Password">
+            </div>
+    
+            <div *ngIf="registrationForm.errors?.misMacth">
+              <small *ngIf="registrationForm.errors?.misMacth"  class="text-danger">Passwords do not match</small>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div> 
+                <input [class.is-invalid]="registrationForm.errors?.misMacth"
+                type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+            </div>
+            <div class="form-group input-group"> 
+              <input type="hidden" class="form-control" formControlName="returnUrl" id="returnUrl" value="appnUrl">
+          </div>
+            
+            <div class="form-group">
+                <span>En cliquant sur inscription, j’accepte
+                <a routerLink ="/login" style="color: cornflowerblue !important;">les Conditions Générales d’Utilisation </a>
+                et je reconnais avoir lu la
+                <a routerLink ="/login" style="color: cornflowerblue!important;"> Politique de Confidentialité</a>.</span>
+             </div>
+
+            <button [disabled]="loading" class="primary-btn float-right">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              Sign up</button>
+  
+          </form>
+        </div>
+        <div class="card-footer" style="background-color: transparent; text-align: center;">
+          <span style="font-size: 1rem !important;">Already a member? </span>
+          <span><a style="color: cornflowerblue !important; font-size: 1rem !important;" routerLink ="/login">Login</a></span>
+        </div>
+      </div>
+    </div>
+
+    <app-registrationreactive></app-registrationreactive>
+
+
+
+

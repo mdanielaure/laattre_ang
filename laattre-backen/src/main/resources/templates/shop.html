@@ -189,15 +189,15 @@
 							<ul class="store-pages">
 								<li><span class="text-uppercase">Page:</span></li>
 								
-								<li th:class="${productPage.number - 1 < 0} ? hide"><a th:href="@{/product/shop(size=${productPage.size}, page=${productPage.number})}" ><i class="fa fa-caret-left"></i></a></li>
+								<li th:class="${productPage.number - 1 < 0} ? hide"><a th:href="@{/api/product/shop(size=${productPage.size}, page=${productPage.number})}" ><i class="fa fa-caret-left"></i></a></li>
 								
 								<li th:if="${productPage.totalPages > 0}"  th:each="pageNumber : ${pageNumbers}"  th:class="${pageNumber==productPage.number + 1} ? active">
 								<span th:if="${pageNumber==productPage.number + 1} " th:text=${pageNumber}>1</span>
-								<a th:if="${pageNumber!=productPage.number + 1} " th:href="@{/product/shop(size=${productPage.size}, page=${pageNumber})}" th:text=${pageNumber} > 1</a>
+								<a th:if="${pageNumber!=productPage.number + 1} " th:href="@{/api/product/shop(size=${productPage.size}, page=${pageNumber})}" th:text=${pageNumber} > 1</a>
 								</li>
 								
 								<li th:class="${productPage.number + 1 > productPage.totalPages - 1} ? hide">
-									<a th:href="@{/product/shop(size=${productPage.size}, page=${productPage.number + 2})}"><i class="fa fa-caret-right"></i>
+									<a th:href="@{/api/product/shop(size=${productPage.size}, page=${productPage.number + 2})}"><i class="fa fa-caret-right"></i>
 									</a>
 								</li>
 							</ul>
@@ -276,15 +276,15 @@
 							<ul class="store-pages">
 								<li><span class="text-uppercase">Page:</span></li>
 								
-								<li th:class="${productPage.number - 1 < 0} ? hide"><a th:href="@{/product/shop(size=${productPage.size}, page=${productPage.number})}" ><i class="fa fa-caret-left"></i></a></li>
+								<li th:class="${productPage.number - 1 < 0} ? hide"><a th:href="@{/api/product/shop(size=${productPage.size}, page=${productPage.number})}" ><i class="fa fa-caret-left"></i></a></li>
 								
 								<li th:if="${productPage.totalPages > 0}"  th:each="pageNumber : ${pageNumbers}"  th:class="${pageNumber==productPage.number + 1} ? active">
 								<span th:if="${pageNumber==productPage.number + 1} " th:text=${pageNumber}>1</span>
-								<a th:if="${pageNumber!=productPage.number + 1} " th:href="@{/product/shop(size=${productPage.size}, page=${pageNumber})}" th:text=${pageNumber} > 1</a>
+								<a th:if="${pageNumber!=productPage.number + 1} " th:href="@{/api/product/shop(size=${productPage.size}, page=${pageNumber})}" th:text=${pageNumber} > 1</a>
 								</li>
 								
 								<li th:class="${productPage.number + 1 > productPage.totalPages - 1} ? hide">
-									<a th:href="@{/product/shop(size=${productPage.size}, page=${productPage.number + 2})}"><i class="fa fa-caret-right"></i>
+									<a th:href="@{/api/product/shop(size=${productPage.size}, page=${productPage.number + 2})}"><i class="fa fa-caret-right"></i>
 									</a>
 								</li>
 								

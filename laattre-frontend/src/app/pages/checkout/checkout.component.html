@@ -1,0 +1,278 @@
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <app-alert></app-alert>
+
+        <mat-horizontal-stepper linear #stepper>
+            <mat-step [stepControl]="shippingAddress">
+              <form [formGroup]="shippingAddress">
+                <ng-template matStepLabel>Shipping Details</ng-template>
+                <mat-form-field>
+                    <div class="billing-details">
+                        <div class="section-title col-md-8">
+                            <h3 class="title">Shipping Details</h3>
+                        </div>
+
+                        <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressFirstName.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressFirstName" formControlName="shippingAddressFirstName" placeholder="*First Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressLastName.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressLastName" formControlName="shippingAddressLastName" placeholder="*Last Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressStreet1.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressStreet1" formControlName="shippingAddressStreet1" placeholder="*Adresss">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressStreet2.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressStreet2" formControlName="shippingAddressStreet2" placeholder="Complement d'adresse">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressCountry.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressCountry" formControlName="shippingAddressCountry" placeholder="*Country">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressState.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressState" formControlName="shippingAddressState" placeholder="*State">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressCity.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressCity" formControlName="shippingAddressCity" placeholder="*City">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressZipCode.invalid && firstNextClicked" 
+                            type="text" class="form-control input" id="shippingAddressZipCode" formControlName="shippingAddressZipCode" placeholder="*Zip Code">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f1.shippingAddressPhone.invalid && firstNextClicked" 
+                            type="tel" class="form-control input" id="shippingAddressPhone" formControlName="shippingAddressPhone" placeholder="*Phone">   
+                          </div>
+                          <!--<div class="form-group">
+                            <div class="input-checkbox">
+                              <input type="checkbox" id="savebillingAddress" name="savebillingAddress">&nbsp;&nbsp;&nbsp;
+                                      <label class="font-weak" for="savebillingAddress"> Save this billing address</label>
+                            </div>
+                          </div>-->
+                    </div>
+                </mat-form-field>
+                <div>
+                  <button  matStepperNext class="primary-btn" (click)="setfirstNextClick()">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="billingAddress" [optional]="isOptional">
+              <form [formGroup]="billingAddress">
+                <ng-template matStepLabel>Billing Details</ng-template>
+                <mat-form-field>
+                    <div class="billing-details">
+                        <div class="section-title col-md-8">
+                            <h3 class="title">Billing Details</h3>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="sameAddress" name="sameAddress" (click)="setSameAddress()">&nbsp;&nbsp;&nbsp;
+                                        <label class="font-weak" for="sameAddress"> The same as shipping address</label>
+                            </div>
+                        </div>
+                        <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressFirstName.invalid && secondNextClicked"
+                            type="text" class="form-control input" id="billingAddressFirstName" formControlName="billingAddressFirstName" placeholder="*First Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressLastName.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressLastName" formControlName="billingAddressLastName" placeholder="*Last Name">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressStreet1.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressStreet1" formControlName="billingAddressStreet1" placeholder="*Adresss">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressStreet2.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressStreet2" formControlName="billingAddressStreet2" placeholder="Complement d'adresse">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressCountry.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressCountry" formControlName="billingAddressCountry" placeholder="*Country">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressState.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressState" formControlName="billingAddressState" placeholder="*State">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressCity.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressCity" formControlName="billingAddressCity" placeholder="*City">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressZipCode.invalid && secondNextClicked" 
+                            type="text" class="form-control input" id="billingAddressZipCode" formControlName="billingAddressZipCode" placeholder="*Zip Code">   
+                          </div>
+                          <div class="form-group input-group col-md-8">
+                            <input [class.is-invalid]="f2.billingAddressPhone.invalid && secondNextClicked" 
+                            type="tel" class="form-control input" id="billingAddressPhone" formControlName="billingAddressPhone" placeholder="*Phone">   
+                          </div>
+                    </div>
+                    
+                </mat-form-field>
+                <div>
+                  <button  matStepperPrevious class="primary-btn">Back</button>
+                  <button  matStepperNext class="primary-btn" (click)="setsecondNextClick()">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="shippingMethod" [optional]="isOptional">
+                <form [formGroup]="shippingMethod">
+                  <ng-template matStepLabel>Shipping Methods</ng-template>
+                  <mat-form-field>
+                    <div class="col-md-8">
+                        <div class="shiping-methods">
+                            <div class="section-title">
+                                <h4 class="title">Shipping Methods</h4>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="shippingMethod" name="shippingMethod" id="shippingMethod-1" value="freeShipping" checked>
+                                <label for="shippingMethod-1"> Free Shipping -  $0.00</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="shippingMethod" name="shippingMethod" id="shippingMethod-2" value="standardShipping">
+                                <label for="shippingMethod-2"> Standard - $4.00</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                  </mat-form-field>
+                  <div>
+                    <button  matStepperPrevious class="primary-btn">Back</button>
+                    <button  matStepperNext class="primary-btn">Next</button>
+                  </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="paymentMethod" [optional]="isOptional">
+                <form [formGroup]="paymentMethod">
+                  <ng-template matStepLabel>Payment Methods</ng-template>
+                  <mat-form-field>
+                    <div class="col-md-8">   
+                        <div class="payments-methods">
+                            <div class="section-title">
+                                <h4 class="title">Payments Methods</h4>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="type" name="type" id="payments-1" value="carte" checked>
+                                <label for="payments-1">Direct Bank Transfer</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="type" name="type" id="payments-2" value="cheque">
+                                <label for="payments-2">Cheque Payment</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" formControlName="type" name="type" id="payments-3" value="paypal">
+                                <label for="payments-3">Paypal System</label>
+                                <div class="caption">
+                                    <p>Details goes here<p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                  </mat-form-field>
+                  <div>
+                    <button matStepperPrevious class="primary-btn">Back</button>
+                    <button  matStepperNext class="primary-btn">Next</button>
+                  </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Order Review</ng-template>
+              
+                <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Order Review</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th></th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-right"></th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor = "let cartItem of cartItemList">
+                                <tr>
+                                    <td class="thumb"><img [src]="getImage(cartItem.product.id)" alt=""></td>
+                                    <td class="details">
+                                        <a [routerLink] = "['/product-details', cartItem.product.id]">{{cartItem.product.name}}</a>
+                                        <ul>
+                                            <li><span>Size: XL</span></li>
+                                            <li><span>Color: Camelot</span></li>
+                                            <li><span>Number in stock: {{cartItem.product.inStockNumber}}</span></li>
+                                        </ul>
+                                    </td>
+                                    <td class="price text-center"><strong>{{cartItem.product.ourPrice | currency: 'EUR': 'symbol': '2.0-2'}}</strong>
+                                        <br>
+                                        <del class="font-weak"><small>{{cartItem.product.listPrice | currency: 'EUR': 'symbol': '2.0-2'}}</small></del></td>
+                                    <td class="qty text-center">
+                                        <input class="input" type="number" value ="{{cartItem.qty}}" 
+                                        max="{{cartItem.product.inStockNumber}}" min="1"
+                                        (change) = "updateCartItemQty($event, cartItem.id)">
+                                    </td>
+                                    <td class="total text-center"><strong class="primary-color">{{cartItem.subtotal | currency: 'EUR': 'symbol': '2.0-2'}}</strong></td>
+                                    <td class="text-right"><button class="main-btn icon-btn" (click) = "deleteItem(cartItem.id)"><i class="fas fa-times"></i></button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SUBTOTAL</th>
+                                    <th colspan="2" class="sub-total">$97.50</th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SHIPING</th>
+                                    <td colspan="2">Free Shipping</td>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>TOTAL</th>
+                                    <th colspan="2" class="total">{{cart.grandTotal | currency: 'EUR': 'symbol': '2.0-2'}}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="pull-right">
+                            <button class="primary-btn" (click) ="placeOrder()">Place Order</button>
+                        </div>
+                    </div>
+
+                </div>
+
+              <div>
+                <button class="primary-btn" matStepperPrevious>Back</button>
+                <button class="primary-btn" (click)="stepper.reset()">Reset</button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+

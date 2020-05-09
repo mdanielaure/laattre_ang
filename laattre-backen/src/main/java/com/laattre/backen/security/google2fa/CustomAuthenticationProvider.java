@@ -10,6 +10,8 @@ import org.springframework.security.core.AuthenticationException;
 
 import com.laattre.backen.persistence.dao.UserRepository;
 import com.laattre.backen.persistence.model.User;
+import com.laattre.backen.web.error.CustomBadCredentialsException;
+import com.laattre.backen.web.error.DisabledException;
 
 //@Component
 public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
@@ -21,7 +23,10 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
         final User user = userRepository.findByEmail(auth.getName());
         if ((user == null)) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new CustomBadCredentialsException("Invalid username or password");
+        }
+        if (!user.isEnabled()) {
+        	throw new DisabledException("User is disabled");
         }
         // to verify verification code
         if (user.isUsing2FA()) {
@@ -32,7 +37,14 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
             }
 
         }
-        final Authentication result = super.authenticate(auth);
+        
+        final Authentication result;
+        try {
+        	result = super.authenticate(auth);
+		} catch (BadCredentialsException e) {
+			throw new CustomBadCredentialsException("INVALID_CREDENTIALS", e);
+		}
+        
         return new UsernamePasswordAuthenticationToken(user, result.getCredentials(), result.getAuthorities());
     }
 
