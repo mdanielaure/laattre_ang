@@ -18,6 +18,7 @@ import { AddToCartComponent } from '../pages/add-to-cart/add-to-cart.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { RegistrationConfirmComponent } from '../pages/registration-confirm/registration-confirm.component';
 import { PaymentSuccessComponent } from '../pages/payment-success/payment-success.component';
+import { OrderDetailComponent } from '../pages/order-detail/order-detail.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,8 @@ const routes: Routes = [
   { path: 'add-to-cart/:pId/:qty/:username', component: AddToCartComponent, canActivate: [AuthGuard]},
   { path: 'checkout/:cartId/:username', component: CheckoutComponent, canActivate: [AuthGuard]},
   { path: 'payment-success', component: PaymentSuccessComponent, canActivate: [AuthGuard]},
+  { path: 'order-detail', component: OrderDetailComponent, canActivate: [AuthGuard]},
+  
   
 
 

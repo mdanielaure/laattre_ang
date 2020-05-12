@@ -73,6 +73,7 @@ export class ShoppingCartComponent implements OnInit {
     },
     (error) => {
       console.log('error: ' + error);
+      this.alertService.error(error);
     });
   }
 

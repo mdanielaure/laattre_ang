@@ -28,4 +28,8 @@ export class UserService {
     resendToken(oldToken: any){
         return this.http.get(`${config.apiUrl}/user/resendRegistrationToken`, {params:{token:oldToken}});
     }
+
+    getOrderDetail(id: any, userEmail: string){
+        return this.http.get(`${config.apiUrl}/user/orderDetail`, {params:{id, userEmail}})
+    }
 }
