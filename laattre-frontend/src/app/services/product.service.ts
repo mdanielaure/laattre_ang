@@ -28,7 +28,7 @@ export class ProductService {
     return Math.round(Math.abs((date1.getTime()  - new Date().getTime() ) / oneDay)) < 30;
   }
 
-  getImage(id: number){
+  getImage(id: any){
     return `${config.apiUrl}/resources/static/image/product/`+id+".png";
   }
 

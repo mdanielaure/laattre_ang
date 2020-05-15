@@ -5,40 +5,31 @@
           <mat-icon>menu</mat-icon>
       </button>
   </div>
-  <!--<div>
-      <a routerLink="/home">Owner-Account</a>
-  </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-      <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-          <li>
-              <a routerLink="/owner">Owner Actions</a>
-          </li>
-          <li>
-              <a routerLink="/account">Account Actions</a>
-          </li>
-      </ul>
-  </div>-->
-
-<!--(mouseenter)="destinationTrigger.openMenu();" (mouseleave)="destinationTrigger.closeMenu();"-->
   <div class="container" fxFlex fxLayout fxLayoutAlign="left" fxHide.xs>
-    <ul fxLayout fxLayoutGap="80px" class="navigation-items">
+    <ul fxLayout fxLayoutGap="40px" class="navigation-items">
         <li>
-            <a routerLink="/home">Accueil</a>
+          <a routerLink="/home">{{ 'header-menu.home' | translate}}</a>
         </li>
         <li (mouseover)="onToggleDestination()" (mouseleave)="onLeaveTogg()">
-            <a routerLink="#">Destination</a>
+            <a routerLink="#">{{ 'header-menu.fashion' | translate }}</a>
         </li>
         <li>
-            <a routerLink="/destination">Type de logement</a>
+          <a routerLink="/products">{{ 'header-menu.beauty' | translate }}</a>
         </li>
         <li>
-            <a routerLink="/destination">Billeterie</a>
+            <a routerLink="/destination">{{ 'header-menu.trips-hotels' | translate }}</a>
         </li>
         <li>
-            <a routerLink="/products">Boutique</a>
+          <a routerLink="/destination">{{ 'header-menu.recreation-outings' | translate }}</a>
         </li>
         <li>
-            <a routerLink="/destination">Bons plans</a>
+          <a routerLink="/products">{{ 'header-menu.house' | translate }}</a>
+        </li>
+        <li>
+            <a routerLink="/products">{{ 'header-menu.grocery' | translate }}</a>
+        </li>
+        <li>
+            <a routerLink="/destination">{{ 'header-menu.favorites' | translate }}</a>
         </li>
 
     </ul>
@@ -48,7 +39,7 @@
 
 <div class="container drop-menu" *ngIf="dropdowns['destination']" #destination (destinationToggle)="destination.toggle()" 
 (mouseleave)="onLeaveDestination()" (mouseover)="onOverDestination()"  >
-  <div class="row">
+  <!--<div class="row">
     <div class="col-md-3">
       <div class="hidden-sm hidden-xs">
         <a class="banner banner-1" href="#">
@@ -129,7 +120,61 @@
         <li><a href="#">Bags & Shoes</a></li>
       </ul>
     </div>
+  </div>-->
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <div class="col-md-6">
+          <ul class="list-links">
+            <li>
+              <h3 class="list-links-title">Categories</h3></li>
+            <li><a href="#">Women’s Clothing</a></li>
+            <li><a href="#">Men’s Clothing</a></li>
+            <li><a href="#">Phones & Accessories</a></li>
+            <li><a href="#">Jewelry & Watches</a></li>
+            <li><a href="#">Bags & Shoes</a></li>
+          </ul>
+          <hr>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-links">
+            <li>
+              <h3 class="list-links-title">Categories</h3></li>
+            <li><a href="#">Women’s Clothing</a></li>
+            <li><a href="#">Men’s Clothing</a></li>
+            <li><a href="#">Phones & Accessories</a></li>
+            <li><a href="#">Jewelry & Watches</a></li>
+            <li><a href="#">Bags & Shoes</a></li>
+          </ul>
+          <hr>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-links">
+            <li>
+              <h3 class="list-links-title">Categories</h3></li>
+            <li><a href="#">Women’s Clothing</a></li>
+            <li><a href="#">Men’s Clothing</a></li>
+            <li><a href="#">Phones & Accessories</a></li>
+            <li><a href="#">Jewelry & Watches</a></li>
+            <li><a href="#">Bags & Shoes</a></li>
+          </ul>
+          <hr>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="col-md-12 hidden-sm hidden-xs">
+          <a class="banner banner-2" href="#">
+            <img src="assets/img/products/banner04.jpg" alt="">
+            <div class="banner-caption">
+              <h3 class="white-color">NEW<br>COLLECTION</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
+
 </div>
 
     

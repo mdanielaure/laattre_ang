@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
  	
 import { MaterialModule } from './material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { ErrorInterceptor } from './services/error.interceptor';
@@ -44,10 +47,13 @@ import { EmptyCartComponent } from './pages/empty-cart/empty-cart.component';
 import { RegistrationreactiveComponent } from './pages/registrationreactive/registrationreactive.component';
 import { RegistrationConfirmComponent } from './pages/registration-confirm/registration-confirm.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
+import { OrderDetailComponent } from './pages/order-detail/order-detail.component';
 
-registerLocaleData(localeFr);
+//registerLocaleData(localeFr);
 
-
+export function HttpLoaderFactory(http: HttpClient){
+  return new TranslateHttpLoader(http);
+}
 
 
 @NgModule({
@@ -79,6 +85,7 @@ registerLocaleData(localeFr);
     RegistrationreactiveComponent,
     RegistrationConfirmComponent,
     PaymentSuccessComponent,
+    OrderDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,14 +97,18 @@ registerLocaleData(localeFr);
     RoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: LOCALE_ID,
-      useValue: 'fr-FR' // 'de-DE' for Germany, 'fr-FR' for France ... 
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

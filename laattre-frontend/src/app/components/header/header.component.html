@@ -19,10 +19,9 @@
             <a class="dropdown-toggle" ngbDropdownToggle id="langDrop" role="button">LANG</a>
             <ul class="custom-menu" ngbDropdownMenu aria-labelledby="langDrop" 
             style="margin-top: 4px !important; font-size: .80rem !important;">
-              <li th:if="${#locale.toString() !='en'}"><a ngbDropdownItem href="?lang=en">English (ENG)</a></li>
-              <li th:if="${#locale.toString() !='fr'}"><a ngbDropdownItem href="?lang=fr">French (FR)</a></li>
-              <li th:if="${#locale.toString() !='ru'}"><a ngbDropdownItem href="?lang=ru">Russian (Ru)</a></li>
-              <li th:if="${#locale.toString() !='es'}"><a ngbDropdownItem href="?lang=es">Spanish (Es)</a></li>
+              <li *ngFor="let lang of languages">
+                <a *ngIf="lang.code !== translate.currentLang" ngbDropdownItem (click)="changeLang(lang.code);">{{lang.label}} ({{lang.code}})</a>
+              </li>
             </ul>
           </li>
           <li class="dropdown default-dropdown" ngbDropdown #currencyDrop="ngbDropdown"

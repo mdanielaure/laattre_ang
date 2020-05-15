@@ -23,9 +23,4 @@ export class CheckoutService {
     return this.http.post(`${config.apiUrl}/checkout`, {shippingAddress, billingAddress, payment, billingSameAsShipping, shippingMethod, username});
   }
 
-  addToCart(pId: any, qty: any, username: any){
-    var body = "pId="+pId+"&qty="+qty+"&username="+username;
-    let headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    return this.http.post(`${config.apiUrl}/shoppingCart/addItem`, body , {headers});
-  }
 }

@@ -73,10 +73,11 @@ export class ShoppingCartComponent implements OnInit {
     },
     (error) => {
       console.log('error: ' + error);
+      this.alertService.error(error);
     });
   }
 
-  getImage(id: number){
+  getImage(id: any){
     return this.productService.getImage(id);
   }
 

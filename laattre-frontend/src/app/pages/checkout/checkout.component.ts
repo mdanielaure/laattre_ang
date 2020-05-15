@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { config } from 'src/app/config';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-checkout',
@@ -34,6 +35,12 @@ export class CheckoutComponent implements OnInit {
   fourthNextClicked = false;
   billingSameAsShipping = false;
 
+  message: string;
+  currentMessage: string;
+  data: any;
+  currentData: any;
+
+
   constructor(
     private productService: ProductService,
     private checkoutService: CheckoutService, 
@@ -41,12 +48,19 @@ export class CheckoutComponent implements OnInit {
     private alertService: AlertService,
     private route: ActivatedRoute,
     private router: Router,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private dataService: DataService
     ) {
 
   }
 
   ngOnInit() {
+
+    this.dataService.currentMessage.subscribe(message => this.message = message);
+    this.dataService.currentData.subscribe(data => this.data = data);
+
+    this.currentMessage = localStorage.getItem('currentMessage');
+    this.currentData = localStorage.getItem('currentData');
 
     if(localStorage.getItem('currentUser')){
 
@@ -173,6 +187,7 @@ export class CheckoutComponent implements OnInit {
                       });*/
     },
     (error) => {
+      console.log('error: ' + error);
       this.alertService.error(error);
     });
   }
@@ -189,6 +204,7 @@ export class CheckoutComponent implements OnInit {
     },
     (error) => {
       console.log('error: ' + error);
+      this.alertService.error(error);
     });
     
     this.router.navigateByUrl('/header', { skipLocationChange: true }).then(() => {
@@ -209,6 +225,7 @@ export class CheckoutComponent implements OnInit {
     },
     (error) => {
       console.log('error: ' + error);
+      this.alertService.error(error);
     });
     
     let nextUrl = window.location;
@@ -219,7 +236,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  getImage(id: number){
+  getImage(id: any){
     return this.productService.getImage(id);
   }
 
@@ -245,11 +262,22 @@ export class CheckoutComponent implements OnInit {
     if(`${config.mock}`){
       console.log("mock : "+`${config.mock}`);
       this.checkoutService.placeOrder(this.shippingAddress.value, this.billingAddress.value, this.paymentMethod.value, this.billingSameAsShipping, this.shippingMethod.get('shippingMethod').value, this.currentUser.user.email)
+      .pipe(
+        map((data)=>{
+          data = JSON.stringify(data);
+         // data = JSON.stringify(data).replace(/\\/g, '')
+        return data;
+        })
+      )
       .subscribe(
         data => {
-          console.log("data cartlist after order:" +JSON.stringify(data))
+            console.log("data cartlist after order:" +data);
             this.alertService.success('Payement successful', true);
-            this.router.navigate(['/payment-success', {message:'success'}]).then(() => {
+            this.dataService.changeMessage('Payment success. We will send you a confirmation email');
+            this.currentMessage = localStorage.getItem('currentMessage');
+            this.dataService.changeData(data);
+            this.currentData = localStorage.getItem('currentData');
+            this.router.navigate(['/payment-success']).then(() => {
               //window.location.reload();
             });
         },

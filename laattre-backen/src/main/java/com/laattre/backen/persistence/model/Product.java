@@ -56,10 +56,12 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false, updatable = false)
+    @JsonIgnore
     private User createdBy;
     
     @ManyToOne
     @JoinColumn(name = "user_owner", nullable = false, updatable = false)
+    @JsonIgnore
     private User userOwner;
     
     @Column(name = "shipping_weight", nullable = false)

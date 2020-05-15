@@ -40,6 +40,9 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private Set<Category> childCategories;
     
+    @Column(name = "menu")
+    private String menu;
+    
     
     
     public Long getId() {
@@ -81,5 +84,13 @@ public class Category {
     public void setChildCategories(Set<Category> childCategories) {
         this.childCategories = childCategories;
     }
+
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
 
 }

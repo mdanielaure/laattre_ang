@@ -1,0 +1,69 @@
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <app-alert></app-alert>
+
+            <form id="cart-form" class="clearfix">
+                <h3>Numéro de la commande: {{order.id}} </h3>
+                <h3>Etat de la commande: {{order.orderStatus}} </h3>
+                <div  class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Order Review</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th></th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor = "let cartItem of cartItemList">
+                                <tr>
+                                    <td class="thumb"><img [src]="getImage(cartItem.product.id)" alt=""></td>
+                                    <td class="details">
+                                        <a [routerLink] = "['/product-details', cartItem.product.id]">{{cartItem.product.name}}</a>
+                                    </td>
+                                    <td class="price text-center"><strong>{{cartItem.product.ourPrice | currency: 'EUR': 'symbol': '2.0-2'}}</strong>
+                                        <br>
+                                        <del class="font-weak" *ngIf ="cartItem.product.listPrice > cartItem.product.ourPrice"><small>{{cartItem.product.listPrice | currency: 'EUR': 'symbol': '2.0-2'}}</small></del></td>
+                                    <td class="qty text-center">
+                                        {{cartItem.qty}}
+                                    </td>
+                                    <td class="total text-center"><strong class="primary-color">{{cartItem.subtotal | currency: 'EUR': 'symbol': '2.0-2'}}</strong></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SUBTOTAL</th>
+                                    <th colspan="2" class="sub-total">$97.50</th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SHIPING</th>
+                                    <td colspan="2">{{order.shippingMethod}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>TOTAL</th>
+                                    <th colspan="2" class="total">{{order.orderTotal | currency: 'EUR': 'symbol': '2.0-2'}}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </form>
+
+
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->

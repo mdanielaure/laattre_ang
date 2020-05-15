@@ -18,9 +18,12 @@ export class HeaderMenuComponent implements OnInit {
    destinationOver = false;
    destinationOpen = false;
 
+   categories: any;
+
   constructor() { }
 
   ngOnInit() {
+    this.categories = this.getCategories();
   }
 
   public onToggleSidenav = () => {
@@ -69,6 +72,10 @@ public onOverDestination = () => {
 
   public togg(name: string) {
     this.dropdowns[name] = !this.dropdowns[name];
+  }
+
+  getCategories(){
+    //retrun this.categoryService.getCategories();
   }
 
 }

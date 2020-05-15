@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
@@ -8,6 +8,7 @@ import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { map } from 'rxjs/operators';
 import { ProductService } from 'src/app/services/product.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -16,6 +17,11 @@ import { AlertService } from 'src/app/services/alert.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+
+  languages = [
+    { code: 'en', label: 'English'},
+    { code: 'fr', label: 'Français'}
+  ];
 
   isLoggedIn = false;
 
@@ -34,8 +40,16 @@ export class HeaderComponent implements OnInit {
     private loginService: AuthService,
     private shoppingCartService: ShoppingCartService,
     private productService: ProductService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    //@Inject(LOCALE_ID) public localeId: string
+    public translate: TranslateService
     ) { 
+      translate.addLangs(['en', 'fr']);
+      translate.setDefaultLang('en');
+      const browserland = translate.getBrowserLang();
+      translate.use(browserland.match(/en|fr/) ? browserland : 'en');
+
+
       //this.loginService.currentUser.subscribe(x => this.currentUser = x);
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       //console.log('currentUser ->' +  JSON.parse(localStorage.getItem('currentUser')));
@@ -100,7 +114,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  getImage(id: number){
+  getImage(id: any){
     return this.productService.getImage(id);
   }
 
@@ -133,6 +147,10 @@ export class HeaderComponent implements OnInit {
     } 
      this.router.navigate(['checkout', cartId, this.currentUser.user.email]);
      
+   }
+
+   changeLang(lang:string){
+    this.translate.use(lang);
    }
 
 }

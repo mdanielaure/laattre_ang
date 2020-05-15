@@ -231,9 +231,10 @@ public class CheckoutController {
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
 		//resolve SerializationFeature.FAIL_ON_EMPTY_BEANS issue
-		String serialized = mapper.writeValueAsString(cartItemList);
+		String serialized = mapper.writeValueAsString(cartItemList);		
+		
 	       // return serialized;
-		model.put("cartItemList", serialized);
+		//model.put("cartItemList", serialized);
 
 		if (checkoutDto.getBillingSameAsShipping().equals("true")) {
 			billingAddress.setBillingAddressFirstName(shippingAddress.getShippingAddressFirstName());
@@ -286,7 +287,7 @@ public class CheckoutController {
 			estimatedDeliveryDate = today.plusDays(3);
 		}
 		
-		model.put("estimatedDeliveryDate", estimatedDeliveryDate);
+		model.put("orderId", order.getId());
 		
 		//return "orderSubmittedPage";
 		return ResponseEntity.ok(model);
