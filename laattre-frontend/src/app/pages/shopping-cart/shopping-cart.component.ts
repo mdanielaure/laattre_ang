@@ -77,7 +77,7 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  getImage(id: number){
+  getImage(id: any){
     return this.productService.getImage(id);
   }
 

@@ -1,0 +1,12 @@
+{
+    "header-menu":{
+        "home": "Home",
+        "fashion": "Fashion",
+        "beauty": "Beauty",
+        "trips-hotels": "Trips/Hotels",
+        "recreation-outings": "Recreation/Outings",
+        "house": "House",
+        "grocery": "Grocery",
+        "favorites": "Our Favorites"
+    }
+}

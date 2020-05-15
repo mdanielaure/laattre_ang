@@ -62,7 +62,7 @@ currentUser: any;
     return this.productService.isNewProduct(createDate);
   }
 
-  getImage(id: number){
+  getImage(id: any){
     return this.productService.getImage(id);
   }
 

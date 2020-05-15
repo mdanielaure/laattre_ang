@@ -1,0 +1,12 @@
+{
+    "header-menu":{
+        "home": "Accueil",
+        "fashion": "Mode",
+        "beauty": "Beauté",
+        "trips-hotels": "Voyages/Hôtels",
+        "recreation-outings": "Loisirs/Sorties",
+        "house": "Maison",
+        "grocery": "Epicerie",
+        "favorites": "Coups de coeur"
+    }
+}
