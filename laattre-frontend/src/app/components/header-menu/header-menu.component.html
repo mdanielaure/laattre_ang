@@ -10,14 +10,14 @@
         <li>
           <a routerLink="/home">{{ 'header-menu.home' | translate}}</a>
         </li>
+        <li>
+          <a routerLink="/destination">{{ 'header-menu.trips-hotels' | translate }}</a>
+        </li>
         <li (mouseover)="onToggleDestination()" (mouseleave)="onLeaveTogg()">
             <a routerLink="#">{{ 'header-menu.fashion' | translate }}</a>
         </li>
         <li>
           <a routerLink="/products">{{ 'header-menu.beauty' | translate }}</a>
-        </li>
-        <li>
-            <a routerLink="/destination">{{ 'header-menu.trips-hotels' | translate }}</a>
         </li>
         <li>
           <a routerLink="/destination">{{ 'header-menu.recreation-outings' | translate }}</a>
@@ -125,7 +125,19 @@
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-6">
-        <div class="col-md-6">
+        <div class="col-md-6" *ngFor="let categorie of categories">
+          <ul class="list-links" *ngIf="categorie.menu=='2'">
+            <li>
+              <h3 class="list-links-title">{{categorie.name}}</h3></li>
+            <li *ngFor="let childCategories of categorie.childCategories"><a href="#">{{childCategories.name}}</a></li>
+            <!--<li><a href="#">Men’s Clothing</a></li>
+            <li><a href="#">Phones & Accessories</a></li>
+            <li><a href="#">Jewelry & Watches</a></li>
+            <li><a href="#">Bags & Shoes</a></li>-->
+          </ul>
+
+        </div>
+        <!--<div class="col-md-6">
           <ul class="list-links">
             <li>
               <h3 class="list-links-title">Categories</h3></li>
@@ -148,22 +160,10 @@
             <li><a href="#">Bags & Shoes</a></li>
           </ul>
           <hr>
-        </div>
-        <div class="col-md-6">
-          <ul class="list-links">
-            <li>
-              <h3 class="list-links-title">Categories</h3></li>
-            <li><a href="#">Women’s Clothing</a></li>
-            <li><a href="#">Men’s Clothing</a></li>
-            <li><a href="#">Phones & Accessories</a></li>
-            <li><a href="#">Jewelry & Watches</a></li>
-            <li><a href="#">Bags & Shoes</a></li>
-          </ul>
-          <hr>
-        </div>
+        </div>-->
       </div>
       <div class="col-md-6">
-        <div class="col-md-12 hidden-sm hidden-xs">
+        <div class="col-md-6 hidden-sm hidden-xs">
           <a class="banner banner-2" href="#">
             <img src="assets/img/products/banner04.jpg" alt="">
             <div class="banner-caption">

@@ -6,6 +6,7 @@ import { config } from 'src/app/config';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute, RouterStateSnapshot } from '@angular/router';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ProductsComponent implements OnInit {
   
 
   constructor(
+    private alertService: AlertService,
     private productService: ProductService,
     private shoppingCartService: ShoppingCartService,
     private route: ActivatedRoute,
@@ -76,6 +78,7 @@ export class ProductsComponent implements OnInit {
     (error) => {
       this.MyError = error;
       console.log('error: ' + this.MyError);
+      this.alertService.error(error)
     });
   }
 

@@ -1,4 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { CategoryService } from 'src/app/services/category.service';
+import { map } from 'rxjs/operators';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-header-menu',
@@ -20,7 +23,10 @@ export class HeaderMenuComponent implements OnInit {
 
    categories: any;
 
-  constructor() { }
+  constructor(
+    private alertService: AlertService,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit() {
     this.categories = this.getCategories();
@@ -75,7 +81,19 @@ public onOverDestination = () => {
   }
 
   getCategories(){
-    //retrun this.categoryService.getCategories();
+    return this.categoryService.getCategories()
+    .pipe(
+      map((data)=>{
+        return data;
+      })
+    ).subscribe(
+      (data: any) => {
+        this.categories = data.categories;
+        console.log("categories: " +JSON.stringify(data))
+    },
+    (error) => {
+      this.alertService.error(error);
+    });
   }
 
 }

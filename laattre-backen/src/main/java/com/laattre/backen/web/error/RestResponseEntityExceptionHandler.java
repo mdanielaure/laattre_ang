@@ -141,7 +141,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({MailSendException.class})
     public ResponseEntity<Object> handleMailSendException(final MailSendException ex, final WebRequest request) {
     	logger.error("500 Status Code", ex);
-        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.badEmail", null, request.getLocale()), "InternalError");
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.emailNotSend", null, request.getLocale()), "InternalError");
         return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
  
     }
@@ -149,7 +149,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({SendFailedException.class})
     public ResponseEntity<Object> handleSendFailedException(final SendFailedException ex, final WebRequest request) {
     	logger.error("500 Status Code", ex);
-        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.badEmail", null, request.getLocale()), "InternalError");
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.emailNotSend", null, request.getLocale()), "InternalError");
         return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
  
     }
@@ -157,7 +157,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({SMTPAddressFailedException.class})
     public ResponseEntity<Object> handleSMTPAddressFailedException(final SMTPAddressFailedException ex, final WebRequest request) {
     	logger.error("500 Status Code", ex);
-        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.badEmail", null, request.getLocale()), "InternalError");
+        final GenericResponse bodyOfResponse = new GenericResponse(messages.getMessage("message.emailNotSend", null, request.getLocale()), "InternalError");
         return new ResponseEntity<Object>(bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
  
     }

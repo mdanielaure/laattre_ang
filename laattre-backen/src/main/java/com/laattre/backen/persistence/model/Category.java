@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * A Category is an entity to classify Products.
  * Categories can have childCategories, but a given category has a single parent (optional).
@@ -32,9 +34,11 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "parentid")
+    @JsonIgnore
     private Category parent;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+    @JsonIgnore
     private Set<Product> products;
 
     @OneToMany(mappedBy = "parent")
@@ -92,5 +96,5 @@ public class Category {
 	public void setMenu(String menu) {
 		this.menu = menu;
 	}
-
+    
 }
