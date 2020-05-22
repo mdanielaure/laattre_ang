@@ -22,6 +22,8 @@ export class ProductsComponent implements OnInit {
   oneDay = 24 * 60 * 60 * 1000;
   page = '1';
   size = '6';
+  menu: string;
+  categoryId: any;
   currentUser: any;
   
 
@@ -46,9 +48,10 @@ export class ProductsComponent implements OnInit {
     .subscribe((params) => {
       this.page = params.get('page') != null ? this.page = params.get('page') : this.page = '1';
       this.size = params.get('size') != null ? this.size = params.get('size') : this.size = '6';
-      console.log("page " + this.page);
-      console.log("size " + this.size);
-      this.getter(this.page,this.size);
+      this.menu = params.get('menu') != null ? this.menu = params.get('menu') : this.menu = '0';
+      this.categoryId = params.get('categoryId') != null ? this.categoryId = params.get('categoryId') : this.categoryId = 0;
+
+      this.getter(this.page, this.size, this.menu, this.categoryId);
     });
 
     
@@ -62,8 +65,8 @@ export class ProductsComponent implements OnInit {
     //this.products = this.productService.getAll();
   }
 
-  getter(page: string, size: string) {
-    this.productService.getAll(page, size)
+  getter(page: string, size: string, menu: string, categoryId: any) {
+    this.productService.getAll(page, size, menu, categoryId)
     .pipe(
       map((data)=>{
         return data;

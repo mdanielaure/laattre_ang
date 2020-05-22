@@ -12,6 +12,8 @@ public interface CategoryService {
     List<Category> findAll();
 	
     Optional<Category> findOne(Long id);
+    
+    List<Category> findByMenu(String menu);
 	
     void removeOne(Long id);
 }

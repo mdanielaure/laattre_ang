@@ -11,15 +11,13 @@ import { AlertService } from 'src/app/services/alert.service';
 export class HeaderMenuComponent implements OnInit {
 
   @Output() public sidenavToggle = new EventEmitter();
-  @Output() public destinationToggle = new EventEmitter();
+  @Output() public menuToggle = new EventEmitter();
+  
 
-  dropdowns = {
-    "destination": false,
-   }
-
-   destinationTogg = false
-   destinationOver = false;
-   destinationOpen = false;
+  dropdowns = { "menu1": false, "menu2": false, "menu3": false, "menu4": false, "menu5": false, "menu6": false, "menu7": false, "menu8": false };
+  menuOpen = { "menu1": false, "menu2": false, "menu3": false, "menu4": false, "menu5": false, "menu6": false, "menu7": false, "menu8": false };
+  menuOver = { "menu1": false, "menu2": false, "menu3": false, "menu4": false, "menu5": false, "menu6": false, "menu7": false, "menu8": false };
+  menuTogg = { "menu1": false, "menu2": false, "menu3": false, "menu4": false, "menu5": false, "menu6": false, "menu7": false, "menu8": false };
 
    categories: any;
 
@@ -36,25 +34,26 @@ export class HeaderMenuComponent implements OnInit {
     this.sidenavToggle.emit();
   }
 
-  public onToggleDestination = () => {
+  public onToggleMenu = (menuName: string) => {
 
-      if(!this.destinationOpen){
-        this.togg("destination");
-        this.destinationToggle.emit();
-        this.destinationOpen = true;
-        this.destinationTogg = true;
+
+      if(!this.menuOpen[menuName]){
+        this.togg(menuName);
+        this.menuToggle.emit();
+        this.isMenuOpen(menuName, true);
+        this.menuTogg[menuName] = true;
       }
     
   }
 
-  public onLeaveTogg = () => {
+  public onLeaveTogg = (menuName: string) => {
     setTimeout(() => 
     {
-      if(!this.destinationOver){
-        this.togg("destination");
-        this.destinationToggle.emit();
-        this.destinationOpen = false;
-        this.destinationTogg = false;
+      if(!this.menuOver[menuName]){
+        this.togg(menuName);
+        this.menuToggle.emit();
+        this.isMenuOpen(menuName, false);
+        this.menuTogg[menuName] = false;
       }
     },
     100);
@@ -62,22 +61,49 @@ export class HeaderMenuComponent implements OnInit {
  
 }
 
-public onLeaveDestination = () => {
+public onLeaveMenu = (menuName: string) => {
 
-    this.togg("destination");
-    this.destinationToggle.emit();
-    this.destinationOpen = false;
-    this.destinationOver = false;
+    this.togg(menuName);
+    this.menuToggle.emit();
+    this.isMenuOpen(menuName, false);
+    this.isMenuOver(menuName, false);
 
 
 }
 
-public onOverDestination = () => {
-    this.destinationOver = true;
+public onOverMenu = (menuName: string) => {
+    this.isMenuOver(menuName, true);
+}
+
+onClickMenu = (menuName: string) => {
+  /*if(!this.menuOpen[menuName]){
+    this.togg(menuName);
+    this.menuToggle.emit();
+    this.menuOpen[menuName] = true;
+    this.menuTogg[menuName] = true;
+  }
+  else if(this.menuOpen[menuName]){
+    if(!this.menuOver[menuName]){
+      this.togg(menuName);
+      this.menuToggle.emit();
+      this.isMenuOpen(menuName, false);
+      this.menuTogg[menuName] = false;
+    }
+  }*/
+  this.togg(menuName);
+  
 }
 
   public togg(name: string) {
     this.dropdowns[name] = !this.dropdowns[name];
+  }
+
+  public isMenuOpen(name: string, value: boolean){
+    this.menuOpen[name] = value;
+  }
+
+  public isMenuOver(name: string, value: boolean){
+    this.menuOver[name] = value;
   }
 
   getCategories(){

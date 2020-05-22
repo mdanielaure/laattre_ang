@@ -28,10 +28,11 @@ const routes: Routes = [
   { path: 'registration-confirm', component: RegistrationConfirmComponent},
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
 
   { path: 'products', component: ProductsComponent},
-  { path: 'products/:page/:size', component: ProductsComponent},
+  { path: 'products/:page/:size/:menu/:categoryId', component: ProductsComponent},
+  //{ path: 'products/:menu', component: ProductsComponent},
+  { path: 'products/:menu/:categoryId', component: ProductsComponent},
   { path: 'product-details/:id', component: ProductDetailsComponent},
   { path: 'product-details', component: ProductDetailsComponent},
   { path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard]},
@@ -39,8 +40,8 @@ const routes: Routes = [
   { path: 'checkout/:cartId/:username', component: CheckoutComponent, canActivate: [AuthGuard]},
   { path: 'payment-success', component: PaymentSuccessComponent, canActivate: [AuthGuard]},
   { path: 'order-detail', component: OrderDetailComponent, canActivate: [AuthGuard]},
-  
-  
+
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},  
 
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },

@@ -33,4 +33,8 @@ public class CategoryServiceImpl implements CategoryService{
 	public void removeOne(Long id) {
 		categoryRepository.deleteById(id);
 	}
+
+	public List<Category> findByMenu(String menu) {
+		return categoryRepository.findByMenu(menu);
+	}
 }

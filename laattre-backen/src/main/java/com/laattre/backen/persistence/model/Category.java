@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * A Category is an entity to classify Products.
  * Categories can have childCategories, but a given category has a single parent (optional).
  *
- * @author dnardelli
+ * @author dlm
  */
 @Entity
 @Table(name = "category")

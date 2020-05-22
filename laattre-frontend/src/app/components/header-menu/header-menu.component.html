@@ -13,11 +13,11 @@
         <li>
           <a routerLink="/destination">{{ 'header-menu.trips-hotels' | translate }}</a>
         </li>
-        <li (mouseover)="onToggleDestination()" (mouseleave)="onLeaveTogg()">
-            <a routerLink="#">{{ 'header-menu.fashion' | translate }}</a>
+        <li (mouseover)="onToggleMenu('menu2')" (mouseleave)="onLeaveTogg('menu2')">
+            <a [routerLink] = "['/products', '2', 0]" (click)="onClickMenu(menu2)">{{ 'header-menu.fashion' | translate }}</a>
         </li>
         <li>
-          <a routerLink="/products">{{ 'header-menu.beauty' | translate }}</a>
+          <a [routerLink] = "['/products', '3', 0]">{{ 'header-menu.beauty' | translate }}</a>
         </li>
         <li>
           <a routerLink="/destination">{{ 'header-menu.recreation-outings' | translate }}</a>
@@ -37,132 +37,101 @@
   
 </mat-toolbar>
 
-<div class="container drop-menu" *ngIf="dropdowns['destination']" #destination (destinationToggle)="destination.toggle()" 
-(mouseleave)="onLeaveDestination()" (mouseover)="onOverDestination()"  >
-  <!--<div class="row">
-    <div class="col-md-3">
-      <div class="hidden-sm hidden-xs">
-        <a class="banner banner-1" href="#">
-          <img src="/resources/img/banner06.jpg" alt="">
-          <div class="banner-caption text-center">
-            <h3 class="white-color text-uppercase">Women’s</h3>
-          </div>
-        </a>
-        <hr>
-      </div>
-      <ul class="list-links">
-        <li>
-          <h3 class="list-links-title">Categories</h3></li>
-        <li><a href="#">Women’s Clothing</a></li>
-        <li><a href="#">Men’s Clothing</a></li>
-        <li><a href="#">Phones & Accessories</a></li>
-        <li><a href="#">Jewelry & Watches</a></li>
-        <li><a href="#">Bags & Shoes</a></li>
-      </ul>
-    </div>
-    <div class="col-md-3">
-      <div class="hidden-sm hidden-xs">
-        <a class="banner banner-1" href="#">
-          <img src="/resources/img/banner07.jpg" alt="">
-          <div class="banner-caption text-center">
-            <h3 class="white-color text-uppercase">Men’s</h3>
-          </div>
-        </a>
-      </div>
-      <hr>
-      <ul class="list-links">
-        <li>
-          <h3 class="list-links-title">Categories</h3></li>
-        <li><a href="#">Women’s Clothing</a></li>
-        <li><a href="#">Men’s Clothing</a></li>
-        <li><a href="#">Phones & Accessories</a></li>
-        <li><a href="#">Jewelry & Watches</a></li>
-        <li><a href="#">Bags & Shoes</a></li>
-      </ul>
-    </div>
-    <div class="col-md-3">
-      <div class="hidden-sm hidden-xs">
-        <a class="banner banner-1" href="#">
-          <img src="/resources/img/banner08.jpg" alt="">
-          <div class="banner-caption text-center">
-            <h3 class="white-color text-uppercase">Accessories</h3>
-          </div>
-        </a>
-      </div>
-      <hr>
-      <ul class="list-links">
-        <li>
-          <h3 class="list-links-title">Categories</h3></li>
-        <li><a href="#">Women’s Clothing</a></li>
-        <li><a href="#">Men’s Clothing</a></li>
-        <li><a href="#">Phones & Accessories</a></li>
-        <li><a href="#">Jewelry & Watches</a></li>
-        <li><a href="#">Bags & Shoes</a></li>
-      </ul>
-    </div>
-    <div class="col-md-3">
-      <div class="hidden-sm hidden-xs">
-        <a class="banner banner-1" href="#">
-          <img src="/resources/img/banner09.jpg" alt="">
-          <div class="banner-caption text-center">
-            <h3 class="white-color text-uppercase">Bags</h3>
-          </div>
-        </a>
-      </div>
-      <hr>
-      <ul class="list-links">
-        <li>
-          <h3 class="list-links-title">Categories</h3></li>
-        <li><a href="#">Women’s Clothing</a></li>
-        <li><a href="#">Men’s Clothing</a></li>
-        <li><a href="#">Phones & Accessories</a></li>
-        <li><a href="#">Jewelry & Watches</a></li>
-        <li><a href="#">Bags & Shoes</a></li>
-      </ul>
-    </div>
-  </div>-->
-
+<div class="container drop-menu" *ngIf="dropdowns['menu1']" #menu1 (menuToggle)="menu1.toggle()" 
+(mouseleave)="onLeaveMenu('menu1')" (mouseover)="onOverMenu('menu1')"  >
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-6">
         <div class="col-md-6" *ngFor="let categorie of categories">
-          <ul class="list-links" *ngIf="categorie.menu=='2'">
-            <li>
-              <h3 class="list-links-title">{{categorie.name}}</h3></li>
-            <li *ngFor="let childCategories of categorie.childCategories"><a href="#">{{childCategories.name}}</a></li>
-            <!--<li><a href="#">Men’s Clothing</a></li>
-            <li><a href="#">Phones & Accessories</a></li>
-            <li><a href="#">Jewelry & Watches</a></li>
-            <li><a href="#">Bags & Shoes</a></li>-->
-          </ul>
-
+          <div *ngIf="categorie.menu=='1'">
+            <ul class="list-links">
+              <li>
+                <h3 class="list-links-title">{{categorie.name}}</h3></li>
+              <li *ngFor="let childCategories of categorie.childCategories"><a href="#">{{childCategories.name}}</a></li>
+            </ul>
+            <hr>
+          </div>
         </div>
-        <!--<div class="col-md-6">
-          <ul class="list-links">
-            <li>
-              <h3 class="list-links-title">Categories</h3></li>
-            <li><a href="#">Women’s Clothing</a></li>
-            <li><a href="#">Men’s Clothing</a></li>
-            <li><a href="#">Phones & Accessories</a></li>
-            <li><a href="#">Jewelry & Watches</a></li>
-            <li><a href="#">Bags & Shoes</a></li>
-          </ul>
-          <hr>
-        </div>
-        <div class="col-md-6">
-          <ul class="list-links">
-            <li>
-              <h3 class="list-links-title">Categories</h3></li>
-            <li><a href="#">Women’s Clothing</a></li>
-            <li><a href="#">Men’s Clothing</a></li>
-            <li><a href="#">Phones & Accessories</a></li>
-            <li><a href="#">Jewelry & Watches</a></li>
-            <li><a href="#">Bags & Shoes</a></li>
-          </ul>
-          <hr>
-        </div>-->
       </div>
       <div class="col-md-6">
+        <div class="col-md-6 hidden-sm hidden-xs">
+          <a class="banner banner-2" href="#">
+            <img src="" alt="">
+          </a>
+        </div>
+        <div class="col-md-6 hidden-sm hidden-xs">
+          <a class="banner banner-2" href="#">
+            <img src="assets/img/products/banner04.jpg" alt="">
+            <div class="banner-caption">
+              <h3 class="white-color">NEW<br>COLLECTION</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container drop-menu" *ngIf="dropdowns['menu2']" #menu2 (menuToggle)="menu2.toggle()" 
+(mouseleave)="onLeaveMenu('menu2')" (mouseover)="onOverMenu('menu2')"  >
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <div class="col-md-6" *ngFor="let category of categories">
+          <div *ngIf="category.menu=='2'">
+            <ul class="list-links">
+              <li>
+                <a [routerLink] = "['/products', '0', category.id]"><h3 class="list-links-title">{{category.name}}</h3></a>
+              </li>
+              <li *ngFor="let childCategory of category.childCategories">
+                <a [routerLink] = "['/products', '0', childCategory.id]">{{childCategory.name}}</a>
+              </li>
+            </ul>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="col-md-6 hidden-sm hidden-xs">
+          <a class="banner banner-2" href="#">
+            <img src="" alt="">
+          </a>
+        </div>
+        <div class="col-md-6 hidden-sm hidden-xs">
+          <a class="banner banner-2" href="#">
+            <img src="assets/img/products/banner04.jpg" alt="">
+            <div class="banner-caption">
+              <h3 class="white-color">NEW<br>COLLECTION</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container drop-menu" *ngIf="dropdowns['menu3']" #menu3 (menu3Toggle)="menu3.toggle()" 
+(mouseleave)="onLeaveMenu('menu3')" (mouseover)="onOverMenu('menu3')"  >
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <div class="col-md-6" *ngFor="let categorie of categories">
+          <div *ngIf="categorie.menu=='3'">
+            <ul class="list-links">
+              <li>
+                <h3 class="list-links-title">{{categorie.name}}</h3></li>
+              <li *ngFor="let childCategories of categorie.childCategories"><a href="#">{{childCategories.name}}</a></li>
+            </ul>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="col-md-6 hidden-sm hidden-xs">
+          <a class="banner banner-2" href="#">
+            <img src="" alt="">
+          </a>
+        </div>
         <div class="col-md-6 hidden-sm hidden-xs">
           <a class="banner banner-2" href="#">
             <img src="assets/img/products/banner04.jpg" alt="">
