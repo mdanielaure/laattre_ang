@@ -1,8 +1,10 @@
 package com.laattre.backen.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.laattre.backen.service.ProductService;
 import com.laattre.backen.persistence.dao.ProductRepository;
+import com.laattre.backen.persistence.model.Category;
 import com.laattre.backen.persistence.model.Product;
 
 
@@ -35,6 +38,11 @@ public class ProductServiceImpl implements ProductService{
 		       .collect(Collectors.toList());
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Product> findByCategories( Set<Category> category){
+		return  (List<Product>) productRepository.findAllByCategoriesIn(category);
+	}
+	
 	public Optional<Product> findOne(Long id) {
 		return productRepository.findById(id);
 	}
@@ -43,11 +51,18 @@ public class ProductServiceImpl implements ProductService{
 		productRepository.deleteById(id);
 	}
 	
-	public Page<Product> findPaginated(Pageable pageable) {
-	    List<Product> products = findAll()
-	    		.stream()
-		        .filter(this::isActive)
-		       .collect(Collectors.toList()); 
+	public Page<Product> findPaginated(Pageable pageable, Set<Category> category) {
+	    List<Product> products =  new ArrayList<Product>();
+	    if(category != null) {
+	    	products = findByCategories(category);
+	    }
+	    else {
+	    	products = findAll()
+		    		.stream()
+			        .filter(this::isActive)
+			       .collect(Collectors.toList()); 
+	    }
+	    		
 	    
 	    int pageSize = pageable.getPageSize();
 	    int currentPage = pageable.getPageNumber();
@@ -61,9 +76,9 @@ public class ProductServiceImpl implements ProductService{
 	        list = products.subList(startItem, toIndex);
 	    }
 
-	    Page<Product> bookPage = new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
+	    Page<Product> productPage = new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
 
-	    return bookPage;
+	    return productPage;
 
 	    }
 	

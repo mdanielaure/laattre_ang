@@ -3,7 +3,7 @@ package com.laattre.backen.web.error;
 /**
  * Defines an exception to be thrown when an entity is not found.
  *
- * @author dnardelli
+ * @author dlm
  */
 public class NotFoundException extends RuntimeException {
 

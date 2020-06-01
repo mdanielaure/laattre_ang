@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     this.router.navigate(['login'], { queryParams: { returnUrl: state.url }})
     .then(() => {
       localStorage.removeItem('currentUser');
-      window.location.reload();
+      //window.location.reload();
     });
     return false;
 

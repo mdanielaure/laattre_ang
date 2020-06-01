@@ -274,6 +274,7 @@ public class CheckoutController {
 		
 		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, checkoutDto.getShippingMethod(), user);
 		
+		//mettre un try catch pour effacer la ligne de commande en cas d'exception
 		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH));
 		
 		shoppingCartService.clearShoppingCart(shoppingCart);

@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -28,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.laattre.backen.persistence.model.Category;
 import com.laattre.backen.persistence.model.Product;
+import com.laattre.backen.service.CategoryService;
 import com.laattre.backen.service.ProductService;
 import com.laattre.backen.service.UserService;
 
@@ -44,6 +48,9 @@ public class ProductController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	
 	@RequestMapping("/productInfo")
@@ -97,7 +104,7 @@ public class ProductController {
 	    final int currentPage = page.orElse(1);
 	    final int pageSize = size.orElse(5);
 	    
-	    Page<Product> productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+	    Page<Product> productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), null);
 	    
 	    model.addAttribute("productPage", productPage);
 	    
@@ -113,12 +120,54 @@ public class ProductController {
 	}
 	
 	@GetMapping("/productList")
-	public  ResponseEntity<?> productList(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+	public  ResponseEntity<?> productList(Model model, 
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size,
+			@RequestParam("categoryId") Optional<Long> categoryId,
+			@RequestParam("menu") Optional<String> menu
+			) {
 		
 		//model.addAttribute("productList", productList);
 		 final int currentPage = page.orElse(1);
 		 final int pageSize = size.orElse(5);
-		 Page<Product> productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+		 final Long catId = categoryId.orElse(null);
+		 String menuQuerry = menu.orElse(null);
+		 Page<Product> productPage = null;
+		 
+		 
+		 if(catId !=null && catId > 0) {
+			 Category category = categoryService.findOne(catId).orElse(null);
+			 Set<Category> categories = new HashSet<>();
+			 
+			 if (category != null && category.getParent() != null) {
+				 categories.add(category);
+			 }
+			 else if (category != null && category.getParent() == null) {
+				 categories.addAll(category.getChildCategories());
+			 }
+			 
+			 productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), categories);
+		 }
+		 else if (menuQuerry != null && !menuQuerry.equals("0")) {
+			List<Category> category = categoryService.findByMenu(menuQuerry);
+			Set<Category> categories = new HashSet<>();
+			 
+			for(int i=0; i< category.size(); i++) {
+				 if (category.get(i) != null && category.get(i).getParent() != null) {
+					 categories.add(category.get(i));
+				 }
+				 else if (category.get(i) != null && category.get(i).getParent() == null) {
+					 categories.addAll(category.get(i).getChildCategories());
+				 }
+			}
+			
+			 productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), categories);
+		 }
+		 else {
+			 productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), null);
+		 }
+		 
+		 
 		 model.addAttribute("productPage", productPage);
 		 int totalPages = productPage.getTotalPages();
 		 if (totalPages > 0) {
